@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TRPG
 {
@@ -38,7 +35,7 @@ namespace TRPG
 
             foreach (string word in Words)
             {
-                if(Verbs.Contains(word))
+                if (Verbs.Contains(word))
                 {
                     result.Tokens.Add(new Token(word, 1));
                 }

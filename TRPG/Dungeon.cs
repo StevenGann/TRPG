@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TRPG
 {
@@ -105,15 +102,46 @@ namespace TRPG
             currentRoom.ID = 0;
             Rooms.Add(new KeyValuePair<int, Room>(0, currentRoom));
             Start = currentRoom;
-
             Room previousRoom = currentRoom;
 
-            Room nextRoom = new Room();
-            nextRoom.GenerateRandom(RNG.Next(), _itemsMaster, _weaponsMaster, _monstersMaster);
-            nextRoom.ID = 1;
-            previousRoom.North = nextRoom.ID;
-            nextRoom.South = previousRoom.ID;
-            Rooms.Add(new KeyValuePair<int, Room>(nextRoom.ID, nextRoom));
+            for (int i = 1; i <= 5; i++)
+            {
+                Room nextRoom = new Room();
+                nextRoom.GenerateRandom(RNG.Next(), _itemsMaster, _weaponsMaster, _monstersMaster);
+                nextRoom.ID = i;
+                bool dirPicked = false;
+                while (!dirPicked)
+                {
+                    int dir = RNG.Next(4);
+                    if (dir == 0 && previousRoom.North == -1) //New room is to the North of the old room
+                    {
+                        previousRoom.North = nextRoom.ID;
+                        nextRoom.South = previousRoom.ID;
+                        dirPicked = true;
+                    }
+                    if (dir == 1 && previousRoom.South == -1) //New room is to the South of the old room
+                    {
+                        previousRoom.South = nextRoom.ID;
+                        nextRoom.North = previousRoom.ID;
+                        dirPicked = true;
+                    }
+                    if (dir == 2 && previousRoom.East == -1) //New room is to the East of the old room
+                    {
+                        previousRoom.East = nextRoom.ID;
+                        nextRoom.West = previousRoom.ID;
+                        dirPicked = true;
+                    }
+                    if (dir == 3 && previousRoom.West == -1) //New room is to the West of the old room
+                    {
+                        previousRoom.West = nextRoom.ID;
+                        nextRoom.East = previousRoom.ID;
+                        dirPicked = true;
+                    }
+                }
+
+                previousRoom = nextRoom;
+                Rooms.Add(new KeyValuePair<int, Room>(nextRoom.ID, nextRoom));
+            }
         }
     }
 }

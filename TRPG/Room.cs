@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TRPG
 {
@@ -91,7 +88,6 @@ namespace TRPG
                 if (DoorCount == 3) { result += "three doors to the "; }
             }
 
-
             if (DoorCount == 1)
             {
                 result += Neighbors[0].Key;
@@ -125,6 +121,35 @@ namespace TRPG
             return result;
         }
 
+        public string GetContentsDescription()
+        {
+            string result = "";
+
+            result += "In this room you see ";
+
+            foreach (Item item in Contents)
+            {
+                if (!(item is Monster))
+                {
+                    result += " a ";
+                    result += item.Name;
+                    result += ",";
+                }
+            }
+
+            foreach (Item item in Contents)
+            {
+                if (item is Monster)
+                {
+                    result += " a ";
+                    result += item.Name;
+                    result += " monster,";
+                }
+            }
+
+            return result;
+        }
+
         public void GenerateRandom(int _seed, List<Item> _itemsMaster, List<Weapon> _weaponsMaster, List<Monster> _monstersMaster)
         {
             Random RNG = new Random(_seed);
@@ -142,7 +167,6 @@ namespace TRPG
             {
                 Contents.Add(_weaponsMaster[(int)RNG.Next(_weaponsMaster.Count)]);
             }
-
 
             n = RNG.Next(5);
             for (int i = 0; i < n; i++)

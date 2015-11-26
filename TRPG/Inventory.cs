@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TRPG
 {
@@ -14,6 +10,7 @@ namespace TRPG
     {
         public int Capacity;
         public int MaxWeight;
+
         public int Weight
         {
             get
@@ -26,6 +23,7 @@ namespace TRPG
                 return result;
             }
         }
+
         public int Count
         {
             get
@@ -48,7 +46,6 @@ namespace TRPG
         }
 
         private List<Item> items = null;
-        
 
         public Inventory()
         {

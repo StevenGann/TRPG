@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TRPG
 {
@@ -19,12 +16,11 @@ namespace TRPG
         public List<Monster> MonstersMaster;//}   used in this game.
         public Dungeon dungeon;
 
+        private bool showingHelp = false;
+        private string helpText = "";
+        private string underHelpText = "";
 
-        bool showingHelp = false;
-        string helpText = "";
-        string underHelpText = "";
-
-        GUI gui;
+        private GUI gui;
 
         /// <summary>
         /// Most of the basic game configuration is done here.
@@ -38,7 +34,9 @@ namespace TRPG
             dungeon = new Dungeon();
 
             LoadItems();
-            dungeon.GenerateRandom(1337, ItemsMaster, WeaponsMaster, MonstersMaster);
+
+            Random RNG = new Random();
+            dungeon.GenerateRandom(RNG.Next(), ItemsMaster, WeaponsMaster, MonstersMaster);
 
             //Define the help text that shows when the player says "help".
             helpText = "COMMON COMMANDS\n";
@@ -49,20 +47,20 @@ namespace TRPG
             helpText += "\"close inventory\" - Collapses the inventory tray back to 1 line.\n";
             helpText += "\"scroll down\"     - Scrolls very large texts down one line.\n";
             helpText += "\"scroll up\"       - Scrolls very large texts up one line.\n";
-            helpText += "\"help\"            - shows this help.\n";
+            helpText += "\"go north\"        - Moves the player to the adjacent room North.\n";
+            helpText += "\"go south\"        - Moves the player to the adjacent room South.\n";
+            helpText += "\"go east\"         - Moves the player to the adjacent room East.\n";
+            helpText += "\"go west\"         - Take a wild guess.\n";
+            helpText += "\"help\"            - shows and hides this help.\n";
 
             gui.MainText = dungeon.CurrentRoom.Description;
-
         }
-
-        
 
         /// <summary>
         /// Advance the game forward one step. Game logic goes here.
         /// </summary>
         public void Step()
         {
-
         }
 
         /// <summary>
@@ -115,11 +113,12 @@ namespace TRPG
                         showingHelp = false;
                         gui.MainText = underHelpText;
                     }
-
                 }
                 else if (newCommand.Text.ToLower() == "examine room")
                 {
                     gui.MainText = dungeon.CurrentRoom.ExtraDescript;
+                    gui.MainText += "\n\n";
+                    gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
                     gui.MainText += "\n\n";
                     gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
                 }
@@ -137,6 +136,28 @@ namespace TRPG
                 else if (newCommand.Text.ToLower() == "go south")
                 {
                     if (dungeon.GoSouth() != -1)
+                    {
+                        gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else
+                    {
+                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
+                    }
+                }
+                else if (newCommand.Text.ToLower() == "go east")
+                {
+                    if (dungeon.GoEast() != -1)
+                    {
+                        gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else
+                    {
+                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
+                    }
+                }
+                else if (newCommand.Text.ToLower() == "go west")
+                {
+                    if (dungeon.GoWest() != -1)
                     {
                         gui.MainText = dungeon.CurrentRoom.Description;
                     }
@@ -179,6 +200,14 @@ namespace TRPG
             MonstersMaster.Add(tempMonster);
             tempMonster = new Monster("Testra", 50, 25);
             MonstersMaster.Add(tempMonster);
+            tempMonster = new Monster("Testarino", 50, 25);
+            MonstersMaster.Add(tempMonster);
+            tempMonster = new Monster("Testata", 50, 25);
+            MonstersMaster.Add(tempMonster);
+            tempMonster = new Monster("Jacen", 50, 25);
+            MonstersMaster.Add(tempMonster);
+            tempMonster = new Monster("Skylark", 50, 25);
+            MonstersMaster.Add(tempMonster);
 
             Weapon tempWeapon;
             tempWeapon = new Weapon("Sword", 10, 10);
@@ -187,6 +216,12 @@ namespace TRPG
             WeaponsMaster.Add(tempWeapon);
             tempWeapon = new Weapon("Club", 5, 25);
             WeaponsMaster.Add(tempWeapon);
+            tempWeapon = new Weapon("Honed Dagger", 25, 5);
+            WeaponsMaster.Add(tempWeapon);
+            tempWeapon = new Weapon("Gold Sword", 15, 7);
+            WeaponsMaster.Add(tempWeapon);
+            tempWeapon = new Weapon("Stick", 0, 1);
+            WeaponsMaster.Add(tempWeapon);
 
             Item tempItem;
             tempItem = new Item("Gold", 1, 0);
@@ -194,6 +229,18 @@ namespace TRPG
             tempItem = new Item("Amulet", 200, 1);
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Rock", 0, 5);
+            ItemsMaster.Add(tempItem);
+            tempItem = new Item("Bone", 0, 1);
+            ItemsMaster.Add(tempItem);
+            tempItem = new Item("Skull", 5, 1);
+            ItemsMaster.Add(tempItem);
+            tempItem = new Item("Dead Rat", 0, 1);
+            ItemsMaster.Add(tempItem);
+            tempItem = new Item("Health Potion", 10, 1);
+            ItemsMaster.Add(tempItem);
+            tempItem = new Item("Poison", 10, 1);
+            ItemsMaster.Add(tempItem);
+            tempItem = new Item("Gem", 100, 1);
             ItemsMaster.Add(tempItem);
         }
     }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TRPG
 {
@@ -21,7 +19,6 @@ namespace TRPG
         public int Accuracy = 0;        //Base accuracy when used as a weapon
         public int Uses = -1;           //For consumable items, how many more times the item can be used (-1 for infinite)
         public Inventory Contents;      //For container objects, like lockboxes and bags of holding
-
 
         public Item()
         {
@@ -75,7 +72,7 @@ namespace TRPG
             Item result = a;
 
             if (a.Name == b.Name)
-            result.Adjectives = a.Adjectives.Union(b.Adjectives).ToList();
+                result.Adjectives = a.Adjectives.Union(b.Adjectives).ToList();
             result.Buffs = a.Buffs + b.Buffs;
 
             return result;
@@ -151,6 +148,4 @@ namespace TRPG
             Buffs = Buff.Randomized(_name.GetHashCode(), 50);
         }
     }
-
-
 }
