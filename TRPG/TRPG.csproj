@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Buff.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="Dungeon.cs" />
     <Compile Include="GUI.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Item.cs" />

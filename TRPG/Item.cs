@@ -63,7 +63,10 @@ namespace TRPG
             a.Buffs.Intelligence += b.Intelligence;
             a.Buffs.Wisdom += b.Wisdom;
             a.Buffs.Charisma += b.Charisma;
-
+            if (b.Adjective != "")
+            {
+                a.Adjectives.Add(b.Adjective);
+            }
             return a;
         }
 
@@ -78,4 +81,76 @@ namespace TRPG
             return result;
         }
     }
+
+    public class Weapon : Item
+    {
+        public Weapon()
+        {
+            Weight = 5;
+            Value = 10;
+            Damage = 10;
+            Accuracy = 75;
+            Adjectives = new List<string>();
+            Buffs = new Buff();
+        }
+
+        public Weapon(string _name)
+        {
+            Weight = 5;
+            Value = 10;
+            Damage = 10;
+            Accuracy = 75;
+            Name = _name;
+            Adjectives = new List<string>();
+            Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+        }
+
+        public Weapon(string _name, int _value, int _weight)
+        {
+            Weight = 5;
+            Value = 10;
+            Damage = 10;
+            Accuracy = 75;
+            Name = _name;
+            Accuracy = 1 + Accuracy * (int)((float)_value / (float)Value);
+            Damage = 1 + Damage * (int)((float)_weight / (float)Weight);
+            Value = _value;
+            Weight = _weight;
+            Adjectives = new List<string>();
+            Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+        }
+    }
+
+    public class Monster : Item
+    {
+        public int Health = 100;
+
+        public Monster()
+        {
+            Damage = 10;
+            Accuracy = 75;
+            Adjectives = new List<string>();
+            Buffs = new Buff();
+        }
+
+        public Monster(string _name)
+        {
+            Damage = 10;
+            Accuracy = 75;
+            Name = _name;
+            Adjectives = new List<string>();
+            Buffs = Buff.Randomized(_name.GetHashCode(), 50);
+        }
+
+        public Monster(string _name, int _damage, int _accuracy)
+        {
+            Damage = _damage;
+            Accuracy = _accuracy;
+            Name = _name;
+            Adjectives = new List<string>();
+            Buffs = Buff.Randomized(_name.GetHashCode(), 50);
+        }
+    }
+
+
 }
