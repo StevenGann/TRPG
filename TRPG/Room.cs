@@ -124,5 +124,49 @@ namespace TRPG
             result += ".";
             return result;
         }
+
+        public void GenerateRandom(int _seed, List<Item> _itemsMaster, List<Weapon> _weaponsMaster, List<Monster> _monstersMaster)
+        {
+            Random RNG = new Random(_seed);
+            Description = "You enter a randomly generated room. ";
+            ExtraDescript = "This room was generated at random, so there's not much of a description. Sorry.";
+
+            int n = RNG.Next(10);
+            for (int i = 0; i < n; i++)
+            {
+                Contents.Add(_itemsMaster[(int)RNG.Next(_itemsMaster.Count)]);
+            }
+
+            n = RNG.Next(5);
+            for (int i = 0; i < n; i++)
+            {
+                Contents.Add(_weaponsMaster[(int)RNG.Next(_weaponsMaster.Count)]);
+            }
+
+
+            n = RNG.Next(5);
+            for (int i = 0; i < n; i++)
+            {
+                Contents.Add(_monstersMaster[(int)RNG.Next(_monstersMaster.Count)]);
+            }
+            Description += "There ";
+            if (n == 0)
+            {
+                Description += "are no monsters ";
+            }
+            else if (n == 1)
+            {
+                Description += "is one monster ";
+            }
+            else if (n == 2)
+            {
+                Description += "are two monsters ";
+            }
+            else
+            {
+                Description += "are several monsters ";
+            }
+            Description += "in here.\n";
+        }
     }
 }

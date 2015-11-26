@@ -123,6 +123,28 @@ namespace TRPG
                     gui.MainText += "\n\n";
                     gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
                 }
+                else if (newCommand.Text.ToLower() == "go north")
+                {
+                    if (dungeon.GoNorth() != -1)
+                    {
+                        gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else
+                    {
+                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
+                    }
+                }
+                else if (newCommand.Text.ToLower() == "go south")
+                {
+                    if (dungeon.GoSouth() != -1)
+                    {
+                        gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else
+                    {
+                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
+                    }
+                }
                 else
                 {
                     if (newCommand.Pattern != "")

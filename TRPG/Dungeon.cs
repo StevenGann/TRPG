@@ -97,9 +97,23 @@ namespace TRPG
             //Eventually, load dungeon from a file.
         }
 
-        public void GenerateRandom(int _seed, List<Item> _itemsMaster, List<Weapon> _weaponsMaster, List<Monster> _monsterMaster)
+        public void GenerateRandom(int _seed, List<Item> _itemsMaster, List<Weapon> _weaponsMaster, List<Monster> _monstersMaster)
         {
             Random RNG = new Random(_seed);
+
+            currentRoom.GenerateRandom(RNG.Next(), _itemsMaster, _weaponsMaster, _monstersMaster);
+            currentRoom.ID = 0;
+            Rooms.Add(new KeyValuePair<int, Room>(0, currentRoom));
+            Start = currentRoom;
+
+            Room previousRoom = currentRoom;
+
+            Room nextRoom = new Room();
+            nextRoom.GenerateRandom(RNG.Next(), _itemsMaster, _weaponsMaster, _monstersMaster);
+            nextRoom.ID = 1;
+            previousRoom.North = nextRoom.ID;
+            nextRoom.South = previousRoom.ID;
+            Rooms.Add(new KeyValuePair<int, Room>(nextRoom.ID, nextRoom));
         }
     }
 }
