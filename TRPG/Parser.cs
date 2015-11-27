@@ -12,18 +12,10 @@ namespace TRPG
         {
             //Load dictionaries from file. Or hardcoded will do for now.
             Verbs = new List<string>();
-            Verbs.Add("eat");
-            Verbs.Add("toss");
-            Verbs.Add("kill");
-            Verbs.Add("read");
-            Verbs.Add("loot");
-            Verbs.Add("throw");
+            Verbs.Add("take");
+            Verbs.Add("drop");
 
             Adjectives = new List<string>();
-            Adjectives.Add("dangerous");
-            Adjectives.Add("quickly");
-            Adjectives.Add("hard");
-            Adjectives.Add("slow");
         }
 
         public Command Parse(string _input)

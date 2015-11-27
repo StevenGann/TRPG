@@ -171,6 +171,20 @@ namespace TRPG
                     if (newCommand.Pattern != "")
                     {
                         messages.Add(new Message("Pattern: " + newCommand.Pattern));//For debugging. Remove later!
+
+                        if (newCommand.Tokens[0].Value == 1)
+                        {
+                            if (newCommand.Tokens[0].Text == "take")
+                            {
+                                gui.MainText = dungeon.CurrentRoom.Contents.Take(newCommand.Tokens[1].Text, playerInventory);
+                            }
+
+                            if (newCommand.Tokens[0].Text == "drop")
+                            {
+                                gui.MainText = dungeon.CurrentRoom.Contents.Drop(newCommand.Tokens[1].Text, playerInventory);
+                            }
+                        }
+
                         Step(); //The player has issued an action. Advance the game one step.
                     }
                     else
@@ -212,13 +226,13 @@ namespace TRPG
             Weapon tempWeapon;
             tempWeapon = new Weapon("Sword", 10, 10);
             WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Dagger", 20, 2);
+            tempWeapon = new Weapon("Knife", 20, 2);
             WeaponsMaster.Add(tempWeapon);
             tempWeapon = new Weapon("Club", 5, 25);
             WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Honed Dagger", 25, 5);
+            tempWeapon = new Weapon("Dagger", 25, 5);
             WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Gold Sword", 15, 7);
+            tempWeapon = new Weapon("Saber", 15, 7);
             WeaponsMaster.Add(tempWeapon);
             tempWeapon = new Weapon("Stick", 0, 1);
             WeaponsMaster.Add(tempWeapon);
@@ -234,9 +248,8 @@ namespace TRPG
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Skull", 5, 1);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Dead Rat", 0, 1);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Health Potion", 10, 1);
+            tempItem = new Item("Potion", 10, 1);
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Poison", 10, 1);
             ItemsMaster.Add(tempItem);

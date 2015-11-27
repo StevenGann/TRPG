@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace TRPG
@@ -84,6 +85,49 @@ namespace TRPG
                 }
                 yield return o;
             }
+        }
+
+        public string Take(string _text, Inventory _playerInventory)
+        {
+            string result = "You cannot take that.";
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].Name.ToLower() == _text.ToLower() && !(items[i] is Monster))
+                {
+                    _playerInventory.Add(items[i]);
+                    items.RemoveAt(i);
+
+                    result = "You take the " + _text + ".";
+                    return result;
+                }
+            }
+
+            return result;
+        }
+
+        public string Drop(string _text, Inventory _playerInventory)
+        {
+            string result = "You cannot drop that.";
+
+            for (int i = 0; i < _playerInventory.Count; i++)
+            {
+                if (_playerInventory[i].Name.ToLower() == _text.ToLower())
+                {
+                    items.Add(_playerInventory[i]);
+                    _playerInventory.RemoveAt(i);
+
+                    result = "You drop the " + _text + ".";
+                    return result;
+                }
+            }
+
+            return result;
+        }
+
+        public void RemoveAt(int i)
+        {
+            items.RemoveAt(i);
         }
     }
 }
