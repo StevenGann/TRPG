@@ -74,7 +74,7 @@ namespace TRPG
             {
                 Width = Console.WindowWidth;
                 Height = Console.WindowHeight;
-                while (DrawBox(0, 0, Width, Height, "") != 0)
+                while (DrawBox(0, 0, Width, Height, "", true) != 0)
                 {
                     Width = Console.WindowWidth;
                     Height = Console.WindowHeight;
@@ -84,11 +84,11 @@ namespace TRPG
             {
                 Console.WindowWidth = Width;
                 Console.WindowHeight = Height;
-                DrawBox(0, 0, Width, Height, "");
+                DrawBox(0, 0, Width, Height, "", true);
             }
 
             //Draw center text region
-            DrawBox(1, 3 + InventorySize, Width - 2, Height - (12 + InventorySize), MainTitle);
+            DrawBox(1, 3 + InventorySize, Width - 2, Height - (12 + InventorySize), MainTitle, false);
             DrawBigText(2, 4 + InventorySize, Width - 2, Height - (5 + InventorySize), MainText, MainScroll);
 
             //Draw Inventory
@@ -98,7 +98,7 @@ namespace TRPG
             DrawMessagebox(_gamestate.messages, 3);
 
             //Draw the Command Box and place the cursor
-            DrawBox(1, Height - 4, Width - 2, 3, "COMMAND");
+            DrawBox(1, Height - 4, Width - 2, 3, "COMMAND", true);
             Console.SetCursorPosition(3, Height - 3);
         }
 
@@ -106,7 +106,7 @@ namespace TRPG
         {
             string title = "INVENTORY [" + _inventory.Weight + "/" + _inventory.MaxWeight + "lbs] [" + _inventory.Count + "/" + _inventory.Capacity + "]";
 
-            DrawBox(1, 1, Width - 2, _lines + 2, title);
+            DrawBox(1, 1, Width - 2, _lines + 2, title, true);
             int i = 0;
             int column_width = 20;
             int column = 0;
@@ -186,7 +186,7 @@ namespace TRPG
 
         public void DrawMessagebox(List<Message> _messages, int _lines)
         {
-            DrawBox(1, Height - (_lines + 6), Width - 2, _lines + 2, "MESSAGES");
+            DrawBox(1, Height - (_lines + 6), Width - 2, _lines + 2, "MESSAGES", false);
             for (int i = 0; i < _lines && i < _messages.Count; i++)
             {
                 //Console.SetCursorPosition(3, Height - ((_lines + 5) - i));
@@ -195,18 +195,35 @@ namespace TRPG
             }
         }
 
-        public int DrawBox(int _x, int _y, int _width, int _height, string _title)
+        public int DrawBox(int _x, int _y, int _width, int _height, string _title, bool _bold)
         {
             int result = 0;
             int x = _x;
             int y = _y;
+            char h = '═';
+            char v = '║';
+            char tl = '╔';
+            char bl = '╚';
+            char tr = '╗';
+            char br = '╝';
+
+            if (!_bold)
+            {
+                h = '─';
+                v = '│';
+                tl = '┌';
+                bl = '└';
+                tr = '┐';
+                br = '┘';
+            }
+
             //Top
             for (x = _x; x < (_x + _width); x++)
             {
                 try
                 {
                     Console.SetCursorPosition(x, y);
-                    Console.Write('═');
+                    Console.Write(h);
                 }
                 catch { result = -1; }
             }
@@ -217,7 +234,7 @@ namespace TRPG
                 try
                 {
                     Console.SetCursorPosition(x, y);
-                    Console.Write('═');
+                    Console.Write(h);
                 }
                 catch { result = -1; }
             }
@@ -228,7 +245,7 @@ namespace TRPG
                 try
                 {
                     Console.SetCursorPosition(x, y);
-                    Console.Write('║');
+                    Console.Write(v);
                 }
                 catch { result = -1; }
             }
@@ -239,7 +256,7 @@ namespace TRPG
                 try
                 {
                     Console.SetCursorPosition(x, y);
-                    Console.Write('║');
+                    Console.Write(v);
                 }
                 catch { result = -1; }
             }
@@ -248,16 +265,16 @@ namespace TRPG
             {
                 //Bottom-Left
                 Console.SetCursorPosition(_x, _y + _height - 1);
-                Console.Write('╚');
+                Console.Write(bl);
                 //Bottom-Right
                 Console.SetCursorPosition(_x + _width - 1, _y + _height - 1);
-                Console.Write('╝');
+                Console.Write(br);
                 //Top-Right
                 Console.SetCursorPosition(_x + _width - 1, _y);
-                Console.Write('╗');
+                Console.Write(tr);
                 //Top-Left
                 Console.SetCursorPosition(_x, _y);
-                Console.Write('╔');
+                Console.Write(tl);
             }
             catch { result = -1; }
 
