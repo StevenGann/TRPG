@@ -129,5 +129,27 @@ namespace TRPG
         {
             items.RemoveAt(i);
         }
+
+        /// <summary>
+        /// Search an Inventory for an Item matching a description
+        /// </summary>
+        /// <param name="_tokens"> List of Tokens of the search command </param>
+        /// <returns>Returns first matching Item. Returns null if no match is found. </returns>
+        public Item Find(List<Token> _tokens)
+        {
+            Item result = null;
+            string targetName = _tokens[1].Text.ToLower();
+
+            foreach (Item item in items)
+            {
+                if (item.Name.ToLower() == targetName)
+                {
+                    result = item;
+                    return result;
+                }
+            }
+
+            return result;
+        }
     }
 }

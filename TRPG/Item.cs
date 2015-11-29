@@ -17,6 +17,7 @@ namespace TRPG
         public Buff Buffs;              //Buffs given to player when in inventory
         public int Damage = 0;          //Base damage when used as a weapon
         public int Accuracy = 0;        //Base accuracy when used as a weapon
+        public int Health = 0;
         public int Uses = -1;           //For consumable items, how many more times the item can be used (-1 for infinite)
         public Inventory Contents;      //For container objects, like lockboxes and bags of holding
 
@@ -77,6 +78,52 @@ namespace TRPG
 
             return result;
         }
+
+        public override string ToString()
+        {
+            string result = "";
+
+            if (this is Weapon)
+            {
+                result += Name + " is a weapon that does ";
+                result += Damage + " base damage, with a base accuracy of ";
+                result += Accuracy + ". It weighs ";
+                result += Weight + "lbs. and is worth ";
+                result += Value + " gold. ";
+                if (Buffs.Magnitude > 0)
+                {
+                    result += "\nThis " + Name + " has the following enchantments:\n";
+                    result += Buffs.ToString();
+                }
+            }
+            else if (this is Monster)
+            {
+                result += Name + " is a monster that does ";
+                result += Damage + " base damage, with a base accuracy of ";
+                result += Accuracy + ". Its health is ";
+                result += Health + ".";
+                if (Buffs.Magnitude > 0)
+                {
+                    result += "\nThis " + Name + " has the following stats:\n";
+                    result += Buffs.ToString();
+                }
+            }
+            else
+            {
+                result += "The " + Name + " weighs ";
+                result += Weight + "lbs. and is worth ";
+                result += Value + " gold. ";
+                if (Buffs.Magnitude > 0)
+                {
+                    result += "\nThis " + Name + " confers the following buffs:\n";
+                    result += Buffs.ToString();
+                }
+            }
+
+            if (Lore != "") { result += "\n\n" + Lore; }
+
+            return result;
+        }
     }
 
     public class Weapon : Item
@@ -120,10 +167,9 @@ namespace TRPG
 
     public class Monster : Item
     {
-        public int Health = 100;
-
         public Monster()
         {
+            Health = 100;
             Damage = 10;
             Accuracy = 75;
             Adjectives = new List<string>();
@@ -132,6 +178,7 @@ namespace TRPG
 
         public Monster(string _name)
         {
+            Health = 100;
             Damage = 10;
             Accuracy = 75;
             Name = _name;
@@ -141,6 +188,7 @@ namespace TRPG
 
         public Monster(string _name, int _damage, int _accuracy)
         {
+            Health = 100;
             Damage = _damage;
             Accuracy = _accuracy;
             Name = _name;

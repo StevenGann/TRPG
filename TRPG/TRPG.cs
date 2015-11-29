@@ -183,6 +183,22 @@ namespace TRPG
                             {
                                 gui.MainText = dungeon.CurrentRoom.Contents.Drop(newCommand.Tokens[1].Text, playerInventory);
                             }
+
+                            if (newCommand.Tokens[0].Text == "examine")
+                            {
+                                if (playerInventory.Find(newCommand.Tokens) != null)
+                                {
+                                    gui.MainText = playerInventory.Find(newCommand.Tokens).ToString();
+                                }
+                                else if (dungeon.CurrentRoom.Contents.Find(newCommand.Tokens) != null)
+                                {
+                                    gui.MainText = dungeon.CurrentRoom.Contents.Find(newCommand.Tokens).ToString();
+                                }
+                                else
+                                {
+                                    gui.MainText = "There is nothing like that to examine here.";
+                                }
+                            }
                         }
 
                         Step(); //The player has issued an action. Advance the game one step.
