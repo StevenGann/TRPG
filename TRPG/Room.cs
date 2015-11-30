@@ -8,6 +8,7 @@ namespace TRPG
         public Inventory Contents;   //Everything in the room
         public string Description;   //General description of the room
         public string ExtraDescript; //Enhanced description of the room
+        public Buff Buffs;
         public int North = -1;
         public int South = -1;
         public int East = -1;
@@ -57,6 +58,7 @@ namespace TRPG
         public Room()
         {
             Contents = new Inventory();
+            Buffs = new Buff();
             Description = "A blank, empty room.";
             ExtraDescript = "There's seriously nothing here. It's just a square room with ";
             ExtraDescript += "white walls. Where is that light even coming from? How do you ";
@@ -153,8 +155,46 @@ namespace TRPG
         public void GenerateRandom(int _seed, List<Item> _itemsMaster, List<Weapon> _weaponsMaster, List<Monster> _monstersMaster)
         {
             Random RNG = new Random(_seed);
+            Buffs = Buff.Randomized(RNG.Next(), 10);
             Description = "You enter a randomly generated room. ";
             ExtraDescript = "This room was generated at random, so there's not much of a description. Sorry.";
+
+            int rt = RNG.Next(5);
+
+            if (rt == 0)
+            {
+                Description = "This room is poorly lit.";
+                ExtraDescript = "The only source of light in the room is a faint glow off some green fungus, ";
+                ExtraDescript += "but from what you can see it is roughly square, with a dirt floor and rough ";
+                ExtraDescript += "stone brick walls. The room stinks of mildew and decay. ";
+            }
+            else if (rt == 1)
+            {
+                Description = "You are in a large, round room.";
+                ExtraDescript = "This room is large and circular. It is brightly lit by an ornate, gold chandelier in the center, ";
+                ExtraDescript += "and you can see file gold and lapis lazuli inlays in the marble floor. ";
+                ExtraDescript += "The walls are ornamented with masterful bas relief sculptures of wars long past. ";
+            }
+            else if (rt == 2)
+            {
+                Description = "You are now standing in water.";
+                ExtraDescript = "This room is small and irregular in shape, and you are standing in ankle-deep water. ";
+                ExtraDescript += "The water is murky with scum floating on top, but you feel silt beneath your feet ";
+                ExtraDescript += "with no indication of a solid floor. ";
+            }
+            else if (rt == 3)
+            {
+                Description = "This room is warm and has a sandy floor.";
+                ExtraDescript = "This room is long and rectangular, with smooth stone brick walls and a floor covered in ";
+                ExtraDescript += "pale yellow sand. It is very warm in here, and you sweat a little as you look around. ";
+            }
+            else if (rt == 4)
+            {
+                Description = "You are in a dim, hot room.";
+                ExtraDescript = "This is less of a room than a cave. The walls are craggy reddish stone covered in ";
+                ExtraDescript += "scrapes, as if gouged by claws. It is very, very hot in here, and from cracks ";
+                ExtraDescript += "in the floor you can hear screams rising from the dark. What is this awful place? ";
+            }
 
             int n = RNG.Next(10);
             for (int i = 0; i < n; i++)

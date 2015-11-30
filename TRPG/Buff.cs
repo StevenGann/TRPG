@@ -20,6 +20,31 @@ namespace TRPG
             }
         }
 
+        public Buff()
+        {
+        }
+
+        public Buff(int _str, int _dex, int _con, int _int, int _wis, int _cha)
+        {
+            Strength = _str;
+            Dexterity = _dex;
+            Constitution = _con;
+            Intelligence = _int;
+            Wisdom = _wis;
+            Charisma = _cha;
+        }
+
+        public void Scramble(int _seed, int _scalar)
+        {
+            Random RNG = new Random(_seed);
+            Strength += RNG.Next(_scalar) - RNG.Next(_scalar);
+            Dexterity += RNG.Next(_scalar) - RNG.Next(_scalar);
+            Constitution += RNG.Next(_scalar) - RNG.Next(_scalar);
+            Intelligence += RNG.Next(_scalar) - RNG.Next(_scalar);
+            Wisdom += RNG.Next(_scalar) - RNG.Next(_scalar);
+            Charisma += RNG.Next(_scalar) - RNG.Next(_scalar);
+        }
+
         public static Buff Randomized(int _seed, int _scalar)
         {
             Buff result = new Buff();

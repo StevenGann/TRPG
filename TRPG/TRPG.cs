@@ -9,12 +9,14 @@ namespace TRPG
     public class TRPG_core
     {
         public Inventory playerInventory;
+        public int playerHealth = 100;
         public List<Message> messages = new List<Message>();
         public Parser parser = new Parser();
         public List<Item> ItemsMaster;   //}
         public List<Weapon> WeaponsMaster; //}>- These collections contain every Item, Weapon, and Monster
         public List<Monster> MonstersMaster;//}   used in this game.
         public Dungeon dungeon;
+        public Buff playerStats;
 
         private bool showingHelp = false;
         private string helpText = "";
@@ -28,6 +30,8 @@ namespace TRPG
         public TRPG_core()
         {
             playerInventory = new Inventory();
+            playerStats = new Buff(10, 10, 10, 10, 10, 10);
+
             gui = new GUI(100, 30, true);//Configure the size of the GUI, and enable/disable dynamic size
             messages = new List<Message>();
             parser = new Parser();
@@ -36,6 +40,7 @@ namespace TRPG
             LoadItems();
 
             Random RNG = new Random();
+            playerStats.Scramble(RNG.Next(), 5);
             dungeon.GenerateRandom(RNG.Next(), ItemsMaster, WeaponsMaster, MonstersMaster);
 
             //Define the help text that shows when the player says "help".
@@ -172,7 +177,7 @@ namespace TRPG
                     {
                         messages.Add(new Message("Pattern: " + newCommand.Pattern));//For debugging. Remove later!
 
-                        if (newCommand.Tokens[0].Value == 1)
+                        if (newCommand.Tokens[0].Value == 1)//If the command starts with a verb
                         {
                             if (newCommand.Tokens[0].Text == "take")
                             {
@@ -197,6 +202,22 @@ namespace TRPG
                                 else
                                 {
                                     gui.MainText = "There is nothing like that to examine here.";
+                                }
+                            }
+
+                            if (newCommand.Tokens[0].Text == "attack" && newCommand.Tokens[2].Text == "with")
+                            {
+                                if (dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text) != null &&
+                                    playerInventory.Find(newCommand.Tokens[3].Text) != null)
+                                {
+                                    try
+                                    {
+                                        gui.MainText = GameRules.PlayerAttacksMonster(this, (Weapon)playerInventory.Find(newCommand.Tokens[3].Text), playerStats, (Monster)dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text), (int)DateTime.Now.Ticks & 0x0000FFFF);
+                                    }
+                                    catch
+                                    {
+                                        gui.MainText = "You cannot do that.";
+                                    }
                                 }
                             }
                         }
@@ -244,13 +265,13 @@ namespace TRPG
             WeaponsMaster.Add(tempWeapon);
             tempWeapon = new Weapon("Knife", 20, 2);
             WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Club", 5, 25);
+            tempWeapon = new Weapon("Club", 7, 25);
             WeaponsMaster.Add(tempWeapon);
             tempWeapon = new Weapon("Dagger", 25, 5);
             WeaponsMaster.Add(tempWeapon);
             tempWeapon = new Weapon("Saber", 15, 7);
             WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Stick", 0, 1);
+            tempWeapon = new Weapon("Stick", 7, 1);
             WeaponsMaster.Add(tempWeapon);
 
             Item tempItem;

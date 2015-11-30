@@ -16,6 +16,7 @@ namespace TRPG
         public List<string> Adjectives; //Adjectives to precede name
         public Buff Buffs;              //Buffs given to player when in inventory
         public int Damage = 0;          //Base damage when used as a weapon
+        public int Defense = 0;         //Base defense
         public int Accuracy = 0;        //Base accuracy when used as a weapon
         public int Health = 0;
         public int Uses = -1;           //For consumable items, how many more times the item can be used (-1 for infinite)
@@ -75,6 +76,48 @@ namespace TRPG
             if (a.Name == b.Name)
                 result.Adjectives = a.Adjectives.Union(b.Adjectives).ToList();
             result.Buffs = a.Buffs + b.Buffs;
+
+            return result;
+        }
+
+        public static bool operator ==(Item a, Item b)
+        {
+            bool result = false;
+
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            //Some things *might* differ between a and b, but if they are identical "enough",
+            //consider it a match. Hashing would probably be the best solution to finding
+            //a perfect match, but I think there'd be consequences tot hat.
+            //Too tired to think about this too much. Fix it, future self!
+            if (a.Name == b.Name)
+            {
+                if (a.Adjectives == b.Adjectives &&
+                    a.Buffs == b.Buffs &&
+                    a.Health == b.Health)
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        public static bool operator !=(Item a, Item b)
+        {
+            bool result = false;
+
+            result = !(a == b);
 
             return result;
         }
@@ -171,6 +214,7 @@ namespace TRPG
         {
             Health = 100;
             Damage = 10;
+            Defense = 10;
             Accuracy = 75;
             Adjectives = new List<string>();
             Buffs = new Buff();

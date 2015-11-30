@@ -15,6 +15,7 @@ namespace TRPG
             Verbs.Add("take");
             Verbs.Add("drop");
             Verbs.Add("examine");
+            Verbs.Add("attack");
 
             Adjectives = new List<string>();
         }

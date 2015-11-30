@@ -151,5 +151,27 @@ namespace TRPG
 
             return result;
         }
+
+        /// <summary>
+        /// Search an Inventory for an Item matching a name
+        /// </summary>
+        /// <param name="_text"></param>
+        /// <returns></returns>
+        internal object Find(string _text)
+        {
+            Item result = null;
+            string targetName = _text.ToLower();
+
+            foreach (Item item in items)
+            {
+                if (item.Name.ToLower() == targetName)
+                {
+                    result = item;
+                    return result;
+                }
+            }
+
+            return result;
+        }
     }
 }
