@@ -28,7 +28,7 @@ namespace TRPG
             //Check to see if the player actually hit
             if (RNG.Next(100) <= (_weapon.Accuracy + _buffs.Dexterity))
             {
-                int dmgDone = (_weapon.Damage + _buffs.Strength) - (RNG.Next(_monster.Defense + _monster.Buffs.Intelligence) + RNG.Next(_monster.Defense + _monster.Buffs.Wisdom));
+                int dmgDone = (_weapon.Damage + _buffs.Strength) - (RNG.Next(Math.Max(1, _monster.Defense + _monster.Buffs.Intelligence)) + RNG.Next(Math.Max(1, _monster.Defense + _monster.Buffs.Wisdom)));
                 if (dmgDone < 0) { dmgDone = 0; }
                 _monster.Health -= dmgDone;
 
@@ -49,7 +49,7 @@ namespace TRPG
                 if (_buffs.Intelligence < _buffs.Strength && RNG.Next(100) < 25)
                 {
                     result += "Worse yet, you lose your footing and hit yourself instead.\n";
-                    int dmgDone = RNG.Next(_weapon.Damage / 2);
+                    int dmgDone = RNG.Next(Math.Max(1, _weapon.Damage / 2));
                     _gameState.playerHealth -= dmgDone;
                     result += "You lose " + dmgDone + " health! ";
                 }
