@@ -103,11 +103,11 @@ namespace TRPG
             Rooms.Add(new KeyValuePair<int, Room>(0, currentRoom));
             Start = currentRoom;
 
-            for (int j = 0; j <= 2; j++)
+            for (int j = 0; j <= 10; j++)
             {
-                Room previousRoom = currentRoom;
+                Room previousRoom = Rooms[RNG.Next(Rooms.Count - 1)].Value;
 
-                for (int i = 1; i <= 5; i++)
+                for (int i = 1; i <= 10; i++)
                 {
                     Room nextRoom = new Room();
                     nextRoom.GenerateRandom(RNG.Next(), _itemsMaster, _weaponsMaster, _monstersMaster);
