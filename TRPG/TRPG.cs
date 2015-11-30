@@ -8,19 +8,18 @@ namespace TRPG
     /// </summary>
     public class TRPG_core
     {
-        public Inventory playerInventory;
-        public int playerHealth = 100;
+        public Player player;
         public List<Message> messages = new List<Message>();
         public Parser parser = new Parser();
         public List<Item> ItemsMaster;   //}
         public List<Weapon> WeaponsMaster; //}>- These collections contain every Item, Weapon, and Monster
         public List<Monster> MonstersMaster;//}   used in this game.
         public Dungeon dungeon;
-        public Buff playerStats;
 
         private bool showingHelp = false;
         private string helpText = "";
         private string underHelpText = "";
+        private bool resetScroll = true;
 
         private GUI gui;
 
@@ -29,9 +28,7 @@ namespace TRPG
         /// </summary>
         public TRPG_core()
         {
-            playerInventory = new Inventory();
-            playerStats = new Buff(10, 10, 10, 10, 10, 10);
-
+            player = new Player();
             gui = new GUI(100, 30, true);//Configure the size of the GUI, and enable/disable dynamic size
             messages = new List<Message>();
             parser = new Parser();
@@ -40,7 +37,7 @@ namespace TRPG
             LoadItems();
 
             Random RNG = new Random();
-            playerStats.Scramble(RNG.Next(), 5);
+            player.Buffs.Scramble(RNG.Next(), 5);
             dungeon.GenerateRandom(RNG.Next(), ItemsMaster, WeaponsMaster, MonstersMaster);
 
             //Define the help text that shows when the player says "help".
@@ -48,14 +45,17 @@ namespace TRPG
             helpText += "This is a small list of some common and useful commands ";
             helpText += "for navigating the game. There are many other commands, ";
             helpText += "but these few are necessary for manipulating the interface.\n\n";
-            helpText += "\"open inventory\"  - Makes the inventory tray much larger.\n";
-            helpText += "\"close inventory\" - Collapses the inventory tray back to 1 line.\n";
-            helpText += "\"scroll down\"     - Scrolls very large texts down one line.\n";
-            helpText += "\"scroll up\"       - Scrolls very large texts up one line.\n";
-            helpText += "\"go north\"        - Moves the player to the adjacent room North.\n";
-            helpText += "\"go south\"        - Moves the player to the adjacent room South.\n";
-            helpText += "\"go east\"         - Moves the player to the adjacent room East.\n";
-            helpText += "\"go west\"         - Take a wild guess.\n";
+            helpText += "\"open inventory\"             - Makes the inventory tray much larger.\n";
+            helpText += "\"close inventory\"            - Collapses the inventory tray back to 1 line.\n";
+            helpText += "\"scroll down\", \"sd\"        - Scrolls very large texts down.\n";
+            helpText += "\"scroll up\",   \"su\"        - Scrolls very large texts up.\n";
+            helpText += "\"go north\"                   - Moves the player to the adjacent room North.\n";
+            helpText += "\"go south\"                   - Moves the player to the adjacent room South.\n";
+            helpText += "\"go east\"                    - Moves the player to the adjacent room East.\n";
+            helpText += "\"go west\"                    - Take a wild guess.\n";
+            helpText += "\"examine\"                    - Examine items, monsters, self, or \"all\".\n";
+            helpText += "\"attack MONSTER with WEAPON\" - name a monster and a weapon to use.\n";
+            //helpText += "\"\"         - \n";
             helpText += "\"help\"            - shows and hides this help.\n";
 
             gui.MainText = dungeon.CurrentRoom.Description;
@@ -77,7 +77,12 @@ namespace TRPG
             if (_input != "")
             {
                 messages.Add(new Message("Input: " + _input));
+                messages[messages.Count - 1].Foreground = ConsoleColor.Cyan;
                 Command newCommand = parser.Parse(_input);
+                if (resetScroll)
+                { gui.MainScroll = 0; }
+                else
+                { resetScroll = true; }
 
                 //Catch special commands outside of actual parsing
                 //These commands do not advance the game
@@ -97,13 +102,17 @@ namespace TRPG
                 {
                     gui.InventorySize = 1;
                 }
-                else if (newCommand.Text.ToLower() == "scroll down")
+                else if (newCommand.Text.ToLower() == "scroll down" || newCommand.Text.ToLower() == "sd")
                 {
-                    if (gui.MainScroll < 10) { gui.MainScroll++; }
+                    //int maxScroll = 100;
+                    //if (gui.MainScroll < maxScroll) { gui.MainScroll += Math.Min(maxScroll - gui.MainScroll, 4); }
+                    gui.MainScroll += gui.Height / 2;
+                    resetScroll = false;
                 }
-                else if (newCommand.Text.ToLower() == "scroll up")
+                else if (newCommand.Text.ToLower() == "scroll up" || newCommand.Text.ToLower() == "su")
                 {
-                    if (gui.MainScroll > 0) { gui.MainScroll--; }
+                    if (gui.MainScroll > 0) { gui.MainScroll -= Math.Min(gui.MainScroll, Math.Max(1, (gui.Height / 2) - 5)); }
+                    resetScroll = false;
                 }
                 else if (newCommand.Text.ToLower() == "help")
                 {
@@ -119,13 +128,27 @@ namespace TRPG
                         gui.MainText = underHelpText;
                     }
                 }
-                else if (newCommand.Text.ToLower() == "examine room")
+                else if (newCommand.Text.ToLower() == "examine room" || newCommand.Text.ToLower() == "er")
                 {
                     gui.MainText = dungeon.CurrentRoom.ExtraDescript;
                     gui.MainText += "\n\n";
                     gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
                     gui.MainText += "\n\n";
                     gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
+                }
+                else if (newCommand.Text.ToLower() == "examine all")
+                {
+                    gui.MainText = dungeon.CurrentRoom.ExtraDescript;
+                    gui.MainText += "\n\n";
+                    gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
+                    gui.MainText += "\n\n";
+                    gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
+                    gui.MainText += "\n\n";
+                    gui.MainText += player.ToString();
+                }
+                else if (newCommand.Text.ToLower() == "examine self")
+                {
+                    gui.MainText = player.ToString();
                 }
                 else if (newCommand.Text.ToLower() == "go north")
                 {
@@ -176,24 +199,25 @@ namespace TRPG
                     if (newCommand.Pattern != "")
                     {
                         messages.Add(new Message("Pattern: " + newCommand.Pattern));//For debugging. Remove later!
+                        messages[messages.Count - 1].Foreground = ConsoleColor.DarkGray;
 
                         if (newCommand.Tokens[0].Value == 1)//If the command starts with a verb
                         {
                             if (newCommand.Tokens[0].Text == "take")
                             {
-                                gui.MainText = dungeon.CurrentRoom.Contents.Take(newCommand.Tokens[1].Text, playerInventory);
+                                gui.MainText = dungeon.CurrentRoom.Contents.Take(newCommand.Tokens[1].Text, player.Contents);
                             }
 
                             if (newCommand.Tokens[0].Text == "drop")
                             {
-                                gui.MainText = dungeon.CurrentRoom.Contents.Drop(newCommand.Tokens[1].Text, playerInventory);
+                                gui.MainText = dungeon.CurrentRoom.Contents.Drop(newCommand.Tokens[1].Text, player.Contents);
                             }
 
                             if (newCommand.Tokens[0].Text == "examine")
                             {
-                                if (playerInventory.Find(newCommand.Tokens) != null)
+                                if (player.Contents.Find(newCommand.Tokens) != null)
                                 {
-                                    gui.MainText = playerInventory.Find(newCommand.Tokens).ToString();
+                                    gui.MainText = player.Contents.Find(newCommand.Tokens).ToString();
                                 }
                                 else if (dungeon.CurrentRoom.Contents.Find(newCommand.Tokens) != null)
                                 {
@@ -205,14 +229,14 @@ namespace TRPG
                                 }
                             }
 
-                            if (newCommand.Tokens[0].Text == "attack" && newCommand.Tokens[2].Text == "with")
+                            if (newCommand.Tokens.Count >= 3 && newCommand.Tokens[0].Text == "attack" && newCommand.Tokens[2].Text == "with")
                             {
                                 if (dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text) != null &&
-                                    playerInventory.Find(newCommand.Tokens[3].Text) != null)
+                                    player.Contents.Find(newCommand.Tokens[3].Text) != null)
                                 {
                                     try
                                     {
-                                        gui.MainText = GameRules.PlayerAttacksMonster(this, (Weapon)playerInventory.Find(newCommand.Tokens[3].Text), playerStats, (Monster)dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text), (int)DateTime.Now.Ticks & 0x0000FFFF);
+                                        gui.MainText = GameRules.PlayerAttacksMonster(this, (Weapon)player.Contents.Find(newCommand.Tokens[3].Text), player.Buffs + player.Contents, (Monster)dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text), (int)DateTime.Now.Ticks & 0x0000FFFF);
                                     }
                                     catch
                                     {
@@ -220,6 +244,13 @@ namespace TRPG
                                     }
                                 }
                             }
+
+                            gui.MainText += "\n--------------------------------\n";
+                            gui.MainText += dungeon.CurrentRoom.ExtraDescript;
+                            gui.MainText += "\n\n";
+                            gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
+                            gui.MainText += "\n\n";
+                            gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
                         }
 
                         Step(); //The player has issued an action. Advance the game one step.

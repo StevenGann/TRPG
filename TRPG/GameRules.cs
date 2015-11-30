@@ -22,13 +22,15 @@ namespace TRPG
         public static string PlayerAttacksMonster(TRPG_core _gameState, Weapon _weapon, Buff _buffs, Monster _monster, int _seed)
         {
             Random RNG = new Random(_seed);
+            Buff finalBuff = _buffs + _weapon.Buffs;
+            finalBuff.Clamp();
             string result = "";
             result += "You attack the " + _monster.Name + " with your " + _weapon.Name + ".\n";
 
             //Check to see if the player actually hit
-            if (RNG.Next(100) <= (_weapon.Accuracy + _buffs.Dexterity))
+            if (RNG.Next(100) <= (_weapon.Accuracy + finalBuff.Dexterity))
             {
-                int dmgDone = (_weapon.Damage + _buffs.Strength) - (RNG.Next(Math.Max(1, _monster.Defense + _monster.Buffs.Intelligence)) + RNG.Next(Math.Max(1, _monster.Defense + _monster.Buffs.Wisdom)));
+                int dmgDone = (_weapon.Damage + finalBuff.Strength) - (RNG.Next(Math.Max(1, _monster.Defense + _monster.Buffs.Intelligence)) + RNG.Next(Math.Max(1, _monster.Defense + _monster.Buffs.Wisdom)));
                 if (dmgDone < 0) { dmgDone = 0; }
                 _monster.Health -= dmgDone;
 
@@ -46,11 +48,11 @@ namespace TRPG
             else
             {
                 result += "Unfortunately, you miss and do no damage. ";
-                if (_buffs.Intelligence < _buffs.Strength && RNG.Next(100) < 25)
+                if (finalBuff.Intelligence < finalBuff.Strength && RNG.Next(100) < 25)
                 {
                     result += "Worse yet, you lose your footing and hit yourself instead.\n";
                     int dmgDone = RNG.Next(Math.Max(1, _weapon.Damage / 2));
-                    _gameState.playerHealth -= dmgDone;
+                    _gameState.player.Health -= dmgDone;
                     result += "You lose " + dmgDone + " health! ";
                 }
             }

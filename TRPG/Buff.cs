@@ -149,5 +149,39 @@ namespace TRPG
 
             return result;
         }
+
+        /// <summary>
+        /// Combine all buffs on Items in the Inventory and combine with supplied base Buff.
+        /// Mostly for use with calculating actual stats on Players.
+        /// </summary>
+        /// <param name="a">Base Buffs</param>
+        /// <param name="b">Inventory to tally up</param>
+        /// <returns></returns>
+        public static Buff operator +(Buff a, Inventory b)
+        {
+            Buff result = a;
+
+            foreach (Item item in b)
+            {
+                if (!(item is Monster) && !(item is Weapon))
+                {
+                    result += item.Buffs;
+                }
+            }
+
+            result.Clamp();
+
+            return result;
+        }
+
+        public void Clamp()
+        {
+            if (Strength < 0) { Strength = 0; }
+            if (Dexterity < 0) { Dexterity = 0; }
+            if (Constitution < 0) { Constitution = 0; }
+            if (Intelligence < 0) { Intelligence = 0; }
+            if (Wisdom < 0) { Wisdom = 0; }
+            if (Charisma < 0) { Charisma = 0; }
+        }
     }
 }

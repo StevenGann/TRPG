@@ -139,6 +139,35 @@ namespace TRPG
                     result += Buffs.ToString();
                 }
             }
+            else if (this is Player)
+            {
+                if (Name != "")
+                {
+                    result += "Your name is " + Name + ".\n";
+                }
+
+                result += "You are an adventurer traveling through a mysterious dungeon seeking treasure and glory.\n";
+                result += "Your health is " + Health + " and you are currently carrying " + Contents.Weight + "lbs. of loot.\n\n";
+                result += "Your base stats are as follows:\n";
+                result += Buffs + "\n\n";
+
+                if (Contents.Count > 0)
+                {
+                    result += "After factoring in the effects of your inventory, your actual stats are as follows:\n";
+                    Buff finalBuff = Buffs + Contents;
+                    finalBuff.Clamp();
+                    result += finalBuff + "\n\n";
+
+                    result += "Here's a rundown of your inventory:\n";
+                    result += "===================================\n\n";
+
+                    foreach (Item item in Contents)
+                    {
+                        result += item.ToString();
+                        result += "\n-----------------------------------\n\n";
+                    }
+                }
+            }
             else if (this is Monster)
             {
                 result += Name + " is a monster that does ";
@@ -238,6 +267,17 @@ namespace TRPG
             Name = _name;
             Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 50);
+        }
+    }
+
+    public class Player : Monster
+    {
+        public Player()
+        {
+            Health = 100;
+            Adjectives = null;
+            Buffs = new Buff(10, 10, 10, 10, 10, 10);
+            Contents = new Inventory();
         }
     }
 }

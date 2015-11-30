@@ -92,7 +92,7 @@ namespace TRPG
             DrawBigText(2, 4 + InventorySize, Width - 2, Height - (5 + InventorySize), MainText, MainScroll);
 
             //Draw Inventory
-            DrawInventory(_gamestate.playerInventory, InventorySize);
+            DrawInventory(_gamestate.player.Contents, InventorySize);
 
             //Draw the message log
             DrawMessagebox(_gamestate.messages, 3);
