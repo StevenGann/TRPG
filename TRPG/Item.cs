@@ -196,6 +196,22 @@ namespace TRPG
 
             return result;
         }
+
+        private string GetFullName()
+        {
+            string result = "";
+            if (Adjectives.Count > 0)
+            {
+                foreach (string adjective in Adjectives)
+                {
+                    result += adjective + " ";
+                }
+            }
+
+            result += Name;
+
+            return result;
+        }
     }
 
     public class Weapon : Item
@@ -233,6 +249,22 @@ namespace TRPG
             Value = _value;
             Weight = _weight;
             Adjectives = new List<string>();
+            Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+        }
+
+        public Weapon(string _adjective, string _name, int _value, int _weight)
+        {
+            Weight = 5;
+            Value = 10;
+            Damage = 10;
+            Accuracy = 75;
+            Name = _name;
+            Accuracy = 1 + Accuracy * (int)((float)_value / (float)Value);
+            Damage = 1 + Damage * (int)((float)_weight / (float)Weight);
+            Value = _value;
+            Weight = _weight;
+            Adjectives = new List<string>();
+            Adjectives.Add(_adjective);
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
         }
     }

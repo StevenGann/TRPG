@@ -275,6 +275,26 @@ namespace TRPG
             WeaponsMaster = new List<Weapon>();
             MonstersMaster = new List<Monster>();
 
+            List<string> Adjectives = new List<string>();
+            Adjectives.Add("sharp");
+            Adjectives.Add("dull");
+            Adjectives.Add("deadly");
+            Adjectives.Add("blunt");
+            Adjectives.Add("rusty");
+            Adjectives.Add("glowing");
+            Adjectives.Add("shiny");
+            Adjectives.Add("polished");
+            Adjectives.Add("dirty");
+            Adjectives.Add("extreme");
+            Adjectives.Add("small");
+            Adjectives.Add("large");
+            Adjectives.Add("tiny");
+            Adjectives.Add("giant");
+            Adjectives.Add("slimy");
+            Adjectives.Add("greasy");
+            Adjectives.Add("smelly");
+            Random RNG = new Random();
+
             Monster tempMonster;
             tempMonster = new Monster("Testoro", 50, 25);
             MonstersMaster.Add(tempMonster);
@@ -291,19 +311,22 @@ namespace TRPG
             tempMonster = new Monster("Skylark", 50, 25);
             MonstersMaster.Add(tempMonster);
 
-            Weapon tempWeapon;
-            tempWeapon = new Weapon("Sword", 10, 10);
-            WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Knife", 20, 2);
-            WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Club", 7, 25);
-            WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Dagger", 25, 5);
-            WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Saber", 15, 7);
-            WeaponsMaster.Add(tempWeapon);
-            tempWeapon = new Weapon("Stick", 7, 1);
-            WeaponsMaster.Add(tempWeapon);
+            for (int i = 0; i < 10; i++)
+            {
+                Weapon tempWeapon;
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "sword", 10, 10);
+                WeaponsMaster.Add(tempWeapon);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "knife", 20, 2);
+                WeaponsMaster.Add(tempWeapon);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "club", 7, 25);
+                WeaponsMaster.Add(tempWeapon);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "dagger", 25, 5);
+                WeaponsMaster.Add(tempWeapon);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "saber", 15, 7);
+                WeaponsMaster.Add(tempWeapon);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "stick", 7, 1);
+                WeaponsMaster.Add(tempWeapon);
+            }
 
             Item tempItem;
             tempItem = new Item("Gold", 1, 0);

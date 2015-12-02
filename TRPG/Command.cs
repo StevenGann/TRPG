@@ -37,12 +37,14 @@ namespace TRPG
     public class Token
     {
         public string Text = "";
+        public List<string> Adjectives;
         public int Value = 0;
 
         public Token(string _text, int _value)
         {
             Text = _text;
             Value = _value;
+            Adjectives = new List<string>();
         }
     }
 }
