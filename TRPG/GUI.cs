@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace TRPG
 {
@@ -87,18 +88,20 @@ namespace TRPG
                 DrawBox(0, 0, Width, Height, "", true);
             }
 
-            //Draw center text region
-            DrawBox(1, 3 + InventorySize, Width - 2, Height - (12 + InventorySize), MainTitle, false);
-            DrawBigText(2, 4 + InventorySize, Width - 2, Height - (5 + InventorySize), MainText, MainScroll);
-
             //Draw Inventory
             DrawInventory(_gamestate.player.Contents, InventorySize);
 
             //Draw the message log
             DrawMessagebox(_gamestate.messages, 3);
 
-            //Draw the Command Box and place the cursor
+            //Draw the Command Box
             DrawBox(1, Height - 4, Width - 2, 3, "COMMAND", true);
+
+            //Draw center text region
+            DrawBox(1, 3 + InventorySize, Width - 2, Height - (12 + InventorySize), MainTitle, false);
+            DrawBigText(2, 4 + InventorySize, Width - 2, Height - (5 + InventorySize), MainText, MainScroll);
+
+            //Place the cursor
             Console.SetCursorPosition(3, Height - 3);
         }
 
@@ -176,12 +179,23 @@ namespace TRPG
             {
                 Console.SetCursorPosition(_x, _y + i);
                 try
-                { Console.Write(Lines[i + _scroll]); }
+                { SlowWrite(Lines[i + _scroll]); }
                 catch { }
                 i++;
             }
 
             return result;
+        }
+
+        private void SlowWrite(string _string)
+        {
+            Random RNG = new Random(_string.GetHashCode());
+            int delay = 5 + RNG.Next(10);
+            for (int i = 0; i < _string.Length; i++)
+            {
+                Thread.Sleep(delay);
+                Console.Write(_string[i]);
+            }
         }
 
         public void DrawMessagebox(List<Message> _messages, int _lines)
