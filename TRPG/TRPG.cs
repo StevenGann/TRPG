@@ -66,6 +66,13 @@ namespace TRPG
         /// </summary>
         public void Step()
         {
+            foreach (Item monster in dungeon.CurrentRoom.Contents)
+            {
+                if (monster is Monster)
+                {
+                    gui.MainText += "\n" + GameRules.MonsterAttacksPlayer(this, player.Buffs + player.Contents, (Monster)monster, (int)DateTime.Now.Ticks & 0x0000FFFF);
+                }
+            }
         }
 
         /// <summary>
@@ -198,6 +205,7 @@ namespace TRPG
                 {
                     if (newCommand.Pattern != "")
                     {
+                        bool turnConsumed = false;
                         messages.Add(new Message("Pattern: " + newCommand.Pattern));//For debugging. Remove later!
                         messages[messages.Count - 1].Foreground = ConsoleColor.DarkGray;
 
@@ -206,11 +214,13 @@ namespace TRPG
                             if (newCommand.Tokens[0].Text == "take")
                             {
                                 gui.MainText = dungeon.CurrentRoom.Contents.Take(newCommand.Tokens, player.Contents);
+                                turnConsumed = true;
                             }
 
                             if (newCommand.Tokens[0].Text == "drop")
                             {
                                 gui.MainText = dungeon.CurrentRoom.Contents.Drop(newCommand.Tokens, player.Contents);
+                                turnConsumed = true;
                             }
 
                             if (newCommand.Tokens[0].Text == "examine")
@@ -237,6 +247,7 @@ namespace TRPG
                                     try
                                     {
                                         gui.MainText = GameRules.PlayerAttacksMonster(this, (Weapon)player.Contents.Find(newCommand.Tokens[3].Text), player.Buffs + player.Contents, (Monster)dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text), (int)DateTime.Now.Ticks & 0x0000FFFF);
+                                        turnConsumed = true;
                                     }
                                     catch
                                     {
@@ -244,16 +255,19 @@ namespace TRPG
                                     }
                                 }
                             }
-
-                            gui.MainText += "\n--------------------------------\n";
-                            gui.MainText += dungeon.CurrentRoom.ExtraDescript;
-                            gui.MainText += "\n\n";
-                            gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
-                            gui.MainText += "\n\n";
-                            gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
                         }
 
-                        Step(); //The player has issued an action. Advance the game one step.
+                        if (turnConsumed)
+                        {
+                            Step(); //The player has issued an action. Advance the game one step.
+                        }
+
+                        gui.MainText += "\n--------------------------------\n";
+                        gui.MainText += dungeon.CurrentRoom.ExtraDescript;
+                        gui.MainText += "\n\n";
+                        gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
+                        gui.MainText += "\n\n";
+                        gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
                     }
                     else
                     {
@@ -296,19 +310,19 @@ namespace TRPG
             Random RNG = new Random();
 
             Monster tempMonster;
-            tempMonster = new Monster("Testoro", 50, 25);
+            tempMonster = new Monster("Testoro", 10, 55);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testito", 50, 25);
+            tempMonster = new Monster("Testito", 15, 50);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testra", 50, 25);
+            tempMonster = new Monster("Testra", 20, 25);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testarino", 50, 25);
+            tempMonster = new Monster("Testarino", 10, 50);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testata", 50, 25);
+            tempMonster = new Monster("Testata", 15, 35);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Jacen", 50, 25);
+            tempMonster = new Monster("Jacen", 5, 25);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Skylark", 50, 25);
+            tempMonster = new Monster("Skylark", 100, 25);
             MonstersMaster.Add(tempMonster);
 
             for (int i = 0; i < 10; i++)

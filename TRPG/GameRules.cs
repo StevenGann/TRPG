@@ -74,5 +74,34 @@ namespace TRPG
 
             return result;
         }
+
+        public static string MonsterAttacksPlayer(TRPG_core _gameState, Buff _buffs, Monster _monster, int _seed)
+        {
+            Random RNG = new Random(_seed);
+            Buff finalBuff = _buffs;
+            finalBuff.Clamp();
+            Buff monsterBuffs = _monster.Buffs;
+            monsterBuffs.Clamp();
+
+            string result = "";
+            result += "The " + _monster.GetFullName() + " attacks you.\n";
+
+            //Check to see if the monster actually hit
+            if (RNG.Next(100) <= (_monster.Accuracy + monsterBuffs.Dexterity))
+            {
+                int dmgDone = (_monster.Damage + monsterBuffs.Strength) - (RNG.Next(Math.Max(1, _buffs.Intelligence)) + RNG.Next(Math.Max(1, _buffs.Wisdom)));
+                if (dmgDone < 0) { dmgDone = 0; }
+                _gameState.player.Health -= dmgDone;
+
+                result += "The " + _monster.Name + " hits you and deals " + dmgDone + " damage.\n";
+                result += "Your health is now " + _gameState.player.Health + ".\n";
+            }
+            else
+            {
+                result += "Fortunately, it misses and does no damage.\n";
+            }
+
+            return result;
+        }
     }
 }

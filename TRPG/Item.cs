@@ -20,6 +20,7 @@ namespace TRPG
         public int Accuracy = 0;        //Base accuracy when used as a weapon
         public int Health = 0;
         public int Uses = -1;           //For consumable items, how many more times the item can be used (-1 for infinite)
+        public int Experience = 0;      //Players have experience, items and monster give it
         public Inventory Contents;      //For container objects, like lockboxes and bags of holding
 
         public Item()
@@ -146,7 +147,9 @@ namespace TRPG
                     result += "Your name is " + Name + ".\n";
                 }
 
-                result += "You are an adventurer traveling through a mysterious dungeon seeking treasure and glory.\n";
+                result += "You are an adventurer ";
+                if (Experience > 0) { result += "with " + Experience + " experience, "; }
+                result += "traveling through a mysterious dungeon seeking treasure and glory.\n";
                 result += "Your health is " + Health + " and you are currently carrying " + Contents.Weight + "lbs. of loot.\n\n";
                 result += "Your base stats are as follows:\n";
                 result += Buffs + "\n\n";
