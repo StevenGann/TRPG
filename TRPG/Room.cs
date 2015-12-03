@@ -127,7 +127,7 @@ namespace TRPG
         {
             string result = "";
 
-            result += "In this room you see ";
+            result += "In this room you see";
 
             foreach (Item item in Contents)
             {
@@ -163,46 +163,46 @@ namespace TRPG
 
             if (rt == 0)
             {
-                Description = "This room is poorly lit.";
+                Description = "This room is poorly lit. ";
                 ExtraDescript = "The only source of light in the room is a faint glow off some green fungus, ";
                 ExtraDescript += "but from what you can see it is roughly square, with a dirt floor and rough ";
                 ExtraDescript += "stone brick walls. The room stinks of mildew and decay. ";
             }
             else if (rt == 1)
             {
-                Description = "You are in a large, round room.";
+                Description = "You are in a large, round room. ";
                 ExtraDescript = "This room is large and circular. It is brightly lit by an ornate, gold chandelier in the center, ";
                 ExtraDescript += "and you can see file gold and lapis lazuli inlays in the marble floor. ";
                 ExtraDescript += "The walls are ornamented with masterful bas relief sculptures of wars long past. ";
             }
             else if (rt == 2)
             {
-                Description = "You are now standing in water.";
+                Description = "You are now standing in water. ";
                 ExtraDescript = "This room is small and irregular in shape, and you are standing in ankle-deep water. ";
                 ExtraDescript += "The water is murky with scum floating on top, but you feel silt beneath your feet ";
                 ExtraDescript += "with no indication of a solid floor. ";
             }
             else if (rt == 3)
             {
-                Description = "This room is warm and has a sandy floor.";
+                Description = "This room is warm and has a sandy floor. ";
                 ExtraDescript = "This room is long and rectangular, with smooth stone brick walls and a floor covered in ";
                 ExtraDescript += "pale yellow sand. It is very warm in here, and you sweat a little as you look around. ";
             }
             else if (rt == 4)
             {
-                Description = "You are in a dim, hot room.";
+                Description = "You are in a dim, hot room. ";
                 ExtraDescript = "This is less of a room than a cave. The walls are craggy reddish stone covered in ";
                 ExtraDescript += "scrapes, as if gouged by claws. It is very, very hot in here, and from cracks ";
                 ExtraDescript += "in the floor you can hear screams rising from the dark. What is this awful place? ";
             }
 
-            int n = RNG.Next(10);
+            int n = RNG.Next(5);
             for (int i = 0; i < n; i++)
             {
                 Contents.Add(_itemsMaster[(int)RNG.Next(_itemsMaster.Count)].Copy());
             }
 
-            n = RNG.Next(5);
+            n = RNG.Next(3);
             for (int i = 0; i < n; i++)
             {
                 Contents.Add(_weaponsMaster[(int)RNG.Next(_weaponsMaster.Count)].Copy());

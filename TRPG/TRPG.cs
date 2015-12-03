@@ -332,7 +332,6 @@ namespace TRPG
                 WeaponsMaster.Add(tempWeapon);
                 tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "knife", 20, 2);
                 WeaponsMaster.Add(tempWeapon);
-                /*
                 tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "club", 7, 25);
                 WeaponsMaster.Add(tempWeapon);
                 tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "dagger", 25, 5);
@@ -340,14 +339,13 @@ namespace TRPG
                 tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "saber", 15, 7);
                 WeaponsMaster.Add(tempWeapon);
                 tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "stick", 7, 1);
-                WeaponsMaster.Add(tempWeapon);*/
+                WeaponsMaster.Add(tempWeapon);
             }
 
             Item tempItem;
             tempItem = new Item("Gold", 1, 0);
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Amulet", 200, 1);
-            /*
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Rock", 0, 5);
             ItemsMaster.Add(tempItem);
@@ -361,7 +359,7 @@ namespace TRPG
             tempItem = new Item("Poison", 10, 1);
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Gem", 100, 1);
-            ItemsMaster.Add(tempItem);*/
+            ItemsMaster.Add(tempItem);
         }
     }
 }
