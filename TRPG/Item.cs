@@ -215,6 +215,25 @@ namespace TRPG
 
             return result;
         }
+
+        public Item Copy()
+        {
+            Item result = new Item();
+            result.Name = Name;
+            result.Lore = Lore;
+            result.Weight = Weight;
+            result.Value = Value;
+            result.Adjectives = Adjectives;
+            result.Buffs = Buffs;
+            result.Damage = Damage;
+            result.Defense = Defense;
+            result.Accuracy = Accuracy;
+            result.Health = Health;
+            result.Uses = Uses;
+            result.Experience = Experience;
+            result.Contents = Contents;
+            return result;
+        }
     }
 
     public class Weapon : Item
@@ -270,6 +289,25 @@ namespace TRPG
             Adjectives.Add(_adjective);
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
         }
+
+        new public Weapon Copy()
+        {
+            Weapon result = new Weapon();
+            result.Name = Name;
+            result.Lore = Lore;
+            result.Weight = Weight;
+            result.Value = Value;
+            result.Adjectives = Adjectives;
+            result.Buffs = Buffs;
+            result.Damage = Damage;
+            result.Defense = Defense;
+            result.Accuracy = Accuracy;
+            result.Health = Health;
+            result.Uses = Uses;
+            result.Experience = Experience;
+            result.Contents = Contents;
+            return result;
+        }
     }
 
     public class Monster : Item
@@ -303,6 +341,25 @@ namespace TRPG
             Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 50);
         }
+
+        new public Monster Copy()
+        {
+            Monster result = new Monster();
+            result.Name = Name;
+            result.Lore = Lore;
+            result.Weight = Weight;
+            result.Value = Value;
+            result.Adjectives = Adjectives;
+            result.Buffs = Buffs;
+            result.Damage = Damage;
+            result.Defense = Defense;
+            result.Accuracy = Accuracy;
+            result.Health = Health;
+            result.Uses = Uses;
+            result.Experience = Experience;
+            result.Contents = Contents;
+            return result;
+        }
     }
 
     public class Player : Monster
@@ -313,6 +370,25 @@ namespace TRPG
             Adjectives = null;
             Buffs = new Buff(10, 10, 10, 10, 10, 10);
             Contents = new Inventory();
+        }
+
+        new public Player Copy()
+        {
+            Player result = new Player();
+            result.Name = Name;
+            result.Lore = Lore;
+            result.Weight = Weight;
+            result.Value = Value;
+            result.Adjectives = Adjectives;
+            result.Buffs = Buffs;
+            result.Damage = Damage;
+            result.Defense = Defense;
+            result.Accuracy = Accuracy;
+            result.Health = Health;
+            result.Uses = Uses;
+            result.Experience = Experience;
+            result.Contents = Contents;
+            return result;
         }
     }
 }

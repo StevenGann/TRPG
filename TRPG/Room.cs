@@ -86,8 +86,8 @@ namespace TRPG
             }
             else
             {
-                if (DoorCount == 2) { result += "two doors to the "; }
-                if (DoorCount == 3) { result += "three doors to the "; }
+                if (DoorCount == 2) { result += "are two doors to the "; }
+                if (DoorCount == 3) { result += "are three doors to the "; }
             }
 
             if (DoorCount == 1)
@@ -199,19 +199,19 @@ namespace TRPG
             int n = RNG.Next(10);
             for (int i = 0; i < n; i++)
             {
-                Contents.Add(_itemsMaster[(int)RNG.Next(_itemsMaster.Count)]);
+                Contents.Add(_itemsMaster[(int)RNG.Next(_itemsMaster.Count)].Copy());
             }
 
             n = RNG.Next(5);
             for (int i = 0; i < n; i++)
             {
-                Contents.Add(_weaponsMaster[(int)RNG.Next(_weaponsMaster.Count)]);
+                Contents.Add(_weaponsMaster[(int)RNG.Next(_weaponsMaster.Count)].Copy());
             }
 
             n = RNG.Next(5);
             for (int i = 0; i < n; i++)
             {
-                Contents.Add(_monstersMaster[(int)RNG.Next(_monstersMaster.Count)]);
+                Contents.Add(_monstersMaster[(int)RNG.Next(_monstersMaster.Count)].Copy());
             }
             Description += "There ";
             if (n == 0)
