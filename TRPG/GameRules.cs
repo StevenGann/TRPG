@@ -72,7 +72,7 @@ namespace TRPG
                 }
             }
 
-            return result;
+            return result + "\n";
         }
 
         public static string MonsterAttacksPlayer(TRPG_core _gameState, Buff _buffs, Monster _monster, int _seed)

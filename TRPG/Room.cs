@@ -40,6 +40,19 @@ namespace TRPG
             }
         }
 
+        public int MonsterCount
+        {
+            get
+            {
+                int result = 0;
+                foreach (Item item in Contents)
+                {
+                    if (item is Monster) { result++; }
+                }
+                return result;
+            }
+        }
+
         public List<KeyValuePair<string, int>> Neighbors
         {
             get

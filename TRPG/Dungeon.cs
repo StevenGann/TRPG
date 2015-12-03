@@ -31,6 +31,10 @@ namespace TRPG
 
             if (currentRoom.North != -1)
             {
+                if (currentRoom.MonsterCount > 0)
+                {
+                    return -2;
+                }
                 foreach (KeyValuePair<int, Room> room in Rooms)
                 {
                     if (room.Key == currentRoom.North)//Find the room with that ID
@@ -47,6 +51,10 @@ namespace TRPG
 
             if (currentRoom.South != -1)
             {
+                if (currentRoom.MonsterCount > 0)
+                {
+                    return -2;
+                }
                 foreach (KeyValuePair<int, Room> room in Rooms)
                 {
                     if (room.Key == currentRoom.South)//Find the room with that ID
@@ -63,6 +71,10 @@ namespace TRPG
 
             if (currentRoom.East != -1)
             {
+                if (currentRoom.MonsterCount > 0)
+                {
+                    return -2;
+                }
                 foreach (KeyValuePair<int, Room> room in Rooms)
                 {
                     if (room.Key == currentRoom.East)//Find the room with that ID
@@ -79,6 +91,10 @@ namespace TRPG
 
             if (currentRoom.West != -1)
             {
+                if (currentRoom.MonsterCount > 0)
+                {
+                    return -2;
+                }
                 foreach (KeyValuePair<int, Room> room in Rooms)
                 {
                     if (room.Key == currentRoom.West)//Find the room with that ID

@@ -314,7 +314,7 @@ namespace TRPG
     {
         public Monster()
         {
-            Health = 100;
+            Health = 25;
             Damage = 10;
             Defense = 10;
             Accuracy = 75;
@@ -324,7 +324,7 @@ namespace TRPG
 
         public Monster(string _name)
         {
-            Health = 100;
+            Health = 25;
             Damage = 10;
             Accuracy = 75;
             Name = _name;
@@ -334,12 +334,12 @@ namespace TRPG
 
         public Monster(string _name, int _damage, int _accuracy)
         {
-            Health = 100;
+            Health = 25;
             Damage = _damage;
             Accuracy = _accuracy;
             Name = _name;
             Adjectives = new List<string>();
-            Buffs = Buff.Randomized(_name.GetHashCode(), 50);
+            Buffs = Buff.Randomized(_name.GetHashCode(), 10);
         }
 
         new public Monster Copy()

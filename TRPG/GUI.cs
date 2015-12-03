@@ -190,7 +190,7 @@ namespace TRPG
         private void SlowWrite(string _string)
         {
             Random RNG = new Random(_string.GetHashCode());
-            int delay = 5 + RNG.Next(10);
+            int delay = 1;//= 5 + RNG.Next(10);
             for (int i = 0; i < _string.Length; i++)
             {
                 Thread.Sleep(delay);

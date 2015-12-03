@@ -36,6 +36,8 @@ namespace TRPG
 
             LoadItems();
 
+            player.Contents.Add(WeaponsMaster[1]);
+
             Random RNG = new Random();
             player.Buffs.Scramble(RNG.Next(), 5);
             dungeon.GenerateRandom(RNG.Next(), ItemsMaster, WeaponsMaster, MonstersMaster);
@@ -71,6 +73,17 @@ namespace TRPG
                 if (monster is Monster)
                 {
                     gui.MainText += "\n" + GameRules.MonsterAttacksPlayer(this, player.Buffs + player.Contents, (Monster)monster, (int)DateTime.Now.Ticks & 0x0000FFFF);
+                }
+
+                if (player.Health <= 0)
+                {
+                    gui.MainText += "\n\nYou died? :(";
+                    gui.Render(this);
+                    Console.ReadLine();
+                    Console.Clear();
+                    Console.WriteLine("You have died.");
+                    Console.ReadLine();
+                    Environment.Exit(0);
                 }
             }
         }
@@ -159,9 +172,13 @@ namespace TRPG
                 }
                 else if (newCommand.Text.ToLower() == "go north")
                 {
-                    if (dungeon.GoNorth() != -1)
+                    if (dungeon.GoNorth() > 0)
                     {
                         gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else if (dungeon.GoNorth() == -2)
+                    {
+                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
                     }
                     else
                     {
@@ -170,9 +187,13 @@ namespace TRPG
                 }
                 else if (newCommand.Text.ToLower() == "go south")
                 {
-                    if (dungeon.GoSouth() != -1)
+                    if (dungeon.GoSouth() > 0)
                     {
                         gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else if (dungeon.GoSouth() == -2)
+                    {
+                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
                     }
                     else
                     {
@@ -181,9 +202,13 @@ namespace TRPG
                 }
                 else if (newCommand.Text.ToLower() == "go east")
                 {
-                    if (dungeon.GoEast() != -1)
+                    if (dungeon.GoEast() > 0)
                     {
                         gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else if (dungeon.GoEast() == -2)
+                    {
+                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
                     }
                     else
                     {
@@ -192,9 +217,13 @@ namespace TRPG
                 }
                 else if (newCommand.Text.ToLower() == "go west")
                 {
-                    if (dungeon.GoWest() != -1)
+                    if (dungeon.GoWest() > 0)
                     {
                         gui.MainText = dungeon.CurrentRoom.Description;
+                    }
+                    else if (dungeon.GoWest() == -2)
+                    {
+                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
                     }
                     else
                     {
@@ -310,11 +339,11 @@ namespace TRPG
             Random RNG = new Random();
 
             Monster tempMonster;
-            tempMonster = new Monster("Testoro", 10, 55);
+            tempMonster = new Monster("Testoro", 10, 75);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testito", 15, 50);
+            tempMonster = new Monster("Testito", 5, 150);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testra", 20, 25);
+            tempMonster = new Monster("Testra", 20, 50);
             MonstersMaster.Add(tempMonster);
             tempMonster = new Monster("Testarino", 10, 50);
             MonstersMaster.Add(tempMonster);
@@ -322,7 +351,7 @@ namespace TRPG
             MonstersMaster.Add(tempMonster);
             tempMonster = new Monster("Jacen", 5, 25);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Skylark", 100, 25);
+            tempMonster = new Monster("Skylark", 50, 50);
             MonstersMaster.Add(tempMonster);
 
             for (int i = 0; i < 10; i++)
