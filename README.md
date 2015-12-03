@@ -8,7 +8,9 @@ interface reminicent of Zork and the like.
 Your soul means of contol is typing action commands for each turn. 
 These commands are interprited and actions are taken, and the game provides you with a description of the locations and events.
 
-![Screenshot](http://i.imgur.com/v64E49N.png)
+![Screenshot](http://i.imgur.com/l21Y15K.png)
+
+![Screenshot](http://i.imgur.com/0SdsB3w.png)
 
 From the top down we see the major features of the UI
 
@@ -33,3 +35,23 @@ on every piece of loot.
 
 - Online multiplayer. By advancing the game according to a fixed clock, actions can be pushed to a server and game states sent back to 
 clients, creating a simple online MUD.
+
+# To Do:
+- [x] Text GUI system
+- [x] Inventory system
+- [x] Ability to describe and navigate dungeons
+- [ ] Load dungeons from files
+- [ ] Load game rules from external DLLs
+- [ ] Finish combat mechanics
+- [ ] Improved random generation of items, monsters, and dungeons
+- [ ] Non-combat NPCs, like merchants
+- [ ] Improved generated text descriptions of items, monsters, and rooms
+- [ ] Magic system and weapon classes (melee, ranged, etc.)
+- [ ] Player skills
+- [ ] Enchanting
+- [ ] Crafting
+- [ ] Survival
+- [ ] Zombies
+
+# How to help
+There's a lot to be done. Feel free to fork this repository and start working on anything, preferably something off the To Do list above.
