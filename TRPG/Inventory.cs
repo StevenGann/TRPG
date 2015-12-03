@@ -107,7 +107,7 @@ namespace TRPG
             return result;
         }
 
-        internal string Take(List<Token> _tokens, Inventory _playerInventory)
+        public string Take(List<Token> _tokens, Inventory _playerInventory)
         {
             string result = "You cannot take that.";
             int tokenOffset = 0;
@@ -176,6 +176,59 @@ namespace TRPG
                 }
             }
 
+            return result;
+        }
+
+        public string Drop(List<Token> _tokens, Inventory _playerInventory)
+        {
+            string result = "You cannot drop that.";
+            int tokenOffset = 0;
+
+            if (_tokens.Count >= 2) //Make sure the given tokens are valid
+            {
+                while (_tokens[tokenOffset].Text.ToLower() != "drop")
+                {
+                    tokenOffset++;
+                }
+                string targetName = _tokens[tokenOffset + 1].Text;
+                List<string> targetAdjectives = _tokens[tokenOffset + 1].Adjectives;
+                int bestMatch = 0;
+                int bestMatchIndex = -1;
+                for (int i = 0; i < _playerInventory.Count; i++)
+                {
+                    int matchCount = 0;
+                    //If the name is a match
+                    if (_playerInventory[i].Name.ToLower() == targetName.ToLower() && !(_playerInventory[i] is Monster))
+                    {
+                        matchCount++;
+                        if (_playerInventory[i].Adjectives.Count > 0 && targetAdjectives.Count > 0)
+                        {
+                            foreach (string adjectiveA in _playerInventory[i].Adjectives)
+                            {
+                                foreach (string adjectiveB in targetAdjectives)
+                                {
+                                    if (adjectiveA.ToLower() == adjectiveB.ToLower())
+                                    {
+                                        matchCount++;
+                                    }
+                                }
+                            }
+                        }
+                        if (matchCount > bestMatch)
+                        {
+                            bestMatchIndex = i;
+                        }
+                    }
+                }
+
+                if (bestMatchIndex != -1)
+                {
+                    result = "You drop the " + _playerInventory[bestMatchIndex].GetFullName() + ".";
+                    items.Add(_playerInventory[bestMatchIndex]);
+                    _playerInventory.RemoveAt(bestMatchIndex);
+                    return result;
+                }
+            }
             return result;
         }
 
