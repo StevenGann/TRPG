@@ -87,6 +87,7 @@ namespace TRPG
             }
         }
 
+        //Avoid using this one.
         public string Take(string _text, Inventory _playerInventory)
         {
             string result = "You cannot take that.";
@@ -103,6 +104,59 @@ namespace TRPG
                 }
             }
 
+            return result;
+        }
+
+        internal string Take(List<Token> _tokens, Inventory _playerInventory)
+        {
+            string result = "You cannot take that.";
+            int tokenOffset = 0;
+
+            if (_tokens.Count >= 2) //Make sure the given tokens are valid
+            {
+                while (_tokens[tokenOffset].Text.ToLower() != "take")
+                {
+                    tokenOffset++;
+                }
+                string targetName = _tokens[tokenOffset + 1].Text;
+                List<string> targetAdjectives = _tokens[tokenOffset + 1].Adjectives;
+                int bestMatch = 0;
+                int bestMatchIndex = -1;
+                for (int i = 0; i < items.Count; i++)
+                {
+                    int matchCount = 0;
+                    //If the name is a match
+                    if (items[i].Name.ToLower() == targetName.ToLower() && !(items[i] is Monster))
+                    {
+                        matchCount++;
+                        if (items[i].Adjectives.Count > 0 && targetAdjectives.Count > 0)
+                        {
+                            foreach (string adjectiveA in items[i].Adjectives)
+                            {
+                                foreach (string adjectiveB in targetAdjectives)
+                                {
+                                    if (adjectiveA.ToLower() == adjectiveB.ToLower())
+                                    {
+                                        matchCount++;
+                                    }
+                                }
+                            }
+                        }
+                        if (matchCount > bestMatch)
+                        {
+                            bestMatchIndex = i;
+                        }
+                    }
+                }
+
+                if (bestMatchIndex != -1)
+                {
+                    result = "You take the " + items[bestMatchIndex].GetFullName() + ".";
+                    _playerInventory.Add(items[bestMatchIndex]);
+                    items.RemoveAt(bestMatchIndex);
+                    return result;
+                }
+            }
             return result;
         }
 

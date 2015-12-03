@@ -128,7 +128,7 @@ namespace TRPG
 
             if (this is Weapon)
             {
-                result += Name + " is a weapon that does ";
+                result += GetFullName() + " is a weapon that does ";
                 result += Damage + " base damage, with a base accuracy of ";
                 result += Accuracy + ". It weighs ";
                 result += Weight + "lbs. and is worth ";
@@ -197,7 +197,7 @@ namespace TRPG
             return result;
         }
 
-        private string GetFullName()
+        public string GetFullName()
         {
             string result = "";
             if (Adjectives.Count > 0)

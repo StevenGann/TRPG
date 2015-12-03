@@ -134,7 +134,7 @@ namespace TRPG
                 if (!(item is Monster))
                 {
                     result += " a ";
-                    result += item.Name;
+                    result += item.GetFullName();
                     result += ",";
                 }
             }
@@ -144,7 +144,7 @@ namespace TRPG
                 if (item is Monster)
                 {
                     result += " a ";
-                    result += item.Name;
+                    result += item.GetFullName();
                     result += " monster,";
                 }
             }

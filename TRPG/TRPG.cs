@@ -205,7 +205,7 @@ namespace TRPG
                         {
                             if (newCommand.Tokens[0].Text == "take")
                             {
-                                gui.MainText = dungeon.CurrentRoom.Contents.Take(newCommand.Tokens[1].Text, player.Contents);
+                                gui.MainText = dungeon.CurrentRoom.Contents.Take(newCommand.Tokens, player.Contents);
                             }
 
                             if (newCommand.Tokens[0].Text == "drop")
