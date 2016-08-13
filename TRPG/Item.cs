@@ -12,17 +12,121 @@ namespace TRPG
     {
         public string Name = "";        //Name of item
         public string Lore = "";        //Optional lore for item
-        public float Weight = 0;        //Weight of item for inventory tracking
-        public float Value = 0;         //Trading value of item
+        private float weight = 0;        //Weight of item for inventory tracking
+        private float value = 0;         //Trading value of item
         public List<Adjective> Adjectives; //Adjectives to precede name
         public Buff Buffs;              //Buffs given to player when in inventory
-        public int Damage = 0;          //Base damage when used as a weapon
-        public int Defense = 0;         //Base defense
-        public int Accuracy = 0;        //Base accuracy when used as a weapon
-        public int Health = 0;
-        public int Uses = -1;           //For consumable items, how many more times the item can be used (-1 for infinite)
-        public int Experience = 0;      //Players have experience, items and monster give it
+        private int damage = 0;          //Base damage when used as a weapon
+        private int defense = 0;         //Base defense
+        private int accuracy = 0;        //Base accuracy when used as a weapon
+        private int health = 0;
+        private int uses = -1;           //For consumable items, how many more times the item can be used (-1 for infinite)
+        private int experience = 0;      //Players have experience, items and monster give it
         public Inventory Contents;      //For container objects, like lockboxes and bags of holding
+
+        public float Weight
+        {
+            get
+            {
+                return weight * sumAdjectives().Weight;
+            }
+
+            set
+            {
+                weight = value;
+            }
+        }
+
+        public float Value
+        {
+            get
+            {
+                return value * sumAdjectives().Value;
+            }
+
+            set
+            {
+                this.value = value;
+            }
+        }
+
+        public int Damage
+        {
+            get
+            {
+                return (int)(((float)damage) * sumAdjectives().Damage);
+            }
+
+            set
+            {
+                damage = value;
+            }
+        }
+
+        public int Defense
+        {
+            get
+            {
+                return (int)(((float)defense) * sumAdjectives().Defense);
+            }
+
+            set
+            {
+                defense = value;
+            }
+        }
+
+        public int Accuracy
+        {
+            get
+            {
+                return (int)(((float)accuracy) * sumAdjectives().Accuracy);
+            }
+
+            set
+            {
+                accuracy = value;
+            }
+        }
+
+        public int Health
+        {
+            get
+            {
+                return (int)(((float)health) * sumAdjectives().Health);
+            }
+
+            set
+            {
+                health = value;
+            }
+        }
+
+        public int Uses
+        {
+            get
+            {
+                return (int)(((float)uses) * sumAdjectives().Uses);
+            }
+
+            set
+            {
+                uses = value;
+            }
+        }
+
+        public int Experience
+        {
+            get
+            {
+                return (int)(((float)experience) * sumAdjectives().Experience);
+            }
+
+            set
+            {
+                experience = value;
+            }
+        }
 
         public Item()
         {
@@ -46,13 +150,28 @@ namespace TRPG
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
         }
 
+        private Adjective sumAdjectives()
+        {
+            Adjective result = new Adjective();
+
+            if (Adjectives != null && Adjectives.Count > 0)
+            {
+                foreach (Adjective a in Adjectives)
+                {
+                    result += a;
+                }
+            }
+
+            return result;
+        }
+
         public void Write()
         {
             Console.Write(Name);
             Console.Write(" (");
-            Console.Write(Convert.ToString(Value));
+            Console.Write(Convert.ToString((int)Value));
             Console.Write("/");
-            Console.Write(Convert.ToString(Weight));
+            Console.Write(Convert.ToString((int)Weight));
             Console.Write(")");
         }
 
@@ -129,8 +248,8 @@ namespace TRPG
                 result += GetFullName() + " is a weapon that does ";
                 result += Damage + " base damage, with a base accuracy of ";
                 result += Accuracy + ". It weighs ";
-                result += Weight + "lbs. and is worth ";
-                result += Value + " gold. ";
+                result += (int)Weight + "lbs. and is worth ";
+                result += (int)Value + " gold. ";
                 if (Buffs.Magnitude > 0)
                 {
                     result += "\nThis " + Name + " has the following enchantments:\n";

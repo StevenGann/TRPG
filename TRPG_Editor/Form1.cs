@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TRPG;
 
@@ -14,8 +7,8 @@ namespace TRPG_Editor
 {
     public partial class Form1 : Form
     {
-        DataPack datapack;
-        TreeNode mySelectedNode;
+        private DataPack datapack;
+        private TreeNode mySelectedNode;
 
         public Form1()
         {
@@ -31,13 +24,13 @@ namespace TRPG_Editor
 
         private void buildItemsTree()
         {
-            foreach(Item i in datapack.ItemsMaster)
+            foreach (Item i in datapack.ItemsMaster)
             {
                 TreeNode n = new TreeNode();
                 n.Text = i.Name;
                 n.Nodes.Add(new TreeNode("Lore: " + i.Lore));
-                n.Nodes.Add(new TreeNode("Weight: "+Convert.ToString(i.Weight)));
-                n.Nodes.Add(new TreeNode("Value: "+Convert.ToString(i.Value)));
+                n.Nodes.Add(new TreeNode("Weight: " + Convert.ToString(i.Weight)));
+                n.Nodes.Add(new TreeNode("Value: " + Convert.ToString(i.Value)));
                 n.Nodes.Add(new TreeNode("Damage: " + Convert.ToString(i.Damage)));
                 n.Nodes.Add(new TreeNode("Defense: " + Convert.ToString(i.Defense)));
                 n.Nodes.Add(new TreeNode("Accuracy: " + Convert.ToString(i.Accuracy)));
@@ -76,7 +69,7 @@ namespace TRPG_Editor
                     }
                     else
                     {
-                        /* Cancel the label edit action, inform the user, and 
+                        /* Cancel the label edit action, inform the user, and
                            place the node in edit mode again. */
                         e.CancelEdit = true;
                         MessageBox.Show("Invalid tree node label.\n" +
@@ -87,7 +80,7 @@ namespace TRPG_Editor
                 }
                 else
                 {
-                    /* Cancel the label edit action, inform the user, and 
+                    /* Cancel the label edit action, inform the user, and
                        place the node in edit mode again. */
                     e.CancelEdit = true;
                     MessageBox.Show("Invalid tree node label.\nThe label cannot be blank",

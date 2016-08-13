@@ -319,40 +319,29 @@ namespace TRPG
             WeaponsMaster = new List<Weapon>();
             MonstersMaster = new List<Monster>();
 
-            List<string> Adjectives = new List<string>();
-            Adjectives.Add("sharp");
-            Adjectives.Add("dull");
-            Adjectives.Add("deadly");
-            Adjectives.Add("blunt");
-            Adjectives.Add("rusty");
-            Adjectives.Add("glowing");
-            Adjectives.Add("shiny");
-            Adjectives.Add("polished");
-            Adjectives.Add("dirty");
-            Adjectives.Add("extreme");
-            Adjectives.Add("small");
-            Adjectives.Add("large");
-            Adjectives.Add("tiny");
-            Adjectives.Add("giant");
-            Adjectives.Add("slimy");
-            Adjectives.Add("greasy");
-            Adjectives.Add("smelly");
+            List<Adjective> Adjectives = new List<Adjective>();
+            Adjectives.Add(new Adjective("large", 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.5f, 1.75f, 1.5f, 1.0f, 1.1f, 0.9f, 1.0f, 1.0f, 1.0f));
+            Adjectives.Add(new Adjective("small", 1.0f, 1.5f, 1.0f, 1.0f, 1.0f, 0.75f, 0.75f, 0.75f, 1.0f, 0.9f, 1.25f, 1.0f, 1.0f, 1.0f));
+            Adjectives.Add(new Adjective("sharp", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.0f, 1.75f, 2.0f, 1.0f, 1.5f, 1.0f, 1.0f, 1.0f));
+            Adjectives.Add(new Adjective("dull", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 0.75f, 1.0f, 0.9f, 1.0f, 1.0f, 1.0f));
+            Adjectives.Add(new Adjective("polished", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 1.1f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+            Adjectives.Add(new Adjective("dirty", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
             Random RNG = new Random();
 
             Monster tempMonster;
-            tempMonster = new Monster("Testoro", 10, 75);
+            tempMonster = new Monster("Grue", 10, 75);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testito", 5, 150);
+            tempMonster = new Monster("Wraith", 5, 150);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testra", 20, 50);
+            tempMonster = new Monster("Wendigo", 20, 50);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testarino", 10, 50);
+            tempMonster = new Monster("Vampire", 10, 50);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Testata", 15, 35);
+            tempMonster = new Monster("Horta", 15, 35);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Jacen", 5, 25);
+            tempMonster = new Monster("Zombie", 5, 25);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Skylark", 50, 50);
+            tempMonster = new Monster("Skeleton", 50, 50);
             MonstersMaster.Add(tempMonster);
 
             for (int i = 0; i < 10; i++)
