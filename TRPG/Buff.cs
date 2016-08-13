@@ -10,7 +10,6 @@ namespace TRPG
         public int Intelligence = 0;
         public int Wisdom = 0;
         public int Charisma = 0;
-        public string Adjective = "";
 
         public int Magnitude
         {
@@ -133,19 +132,6 @@ namespace TRPG
             result.Intelligence = a.Intelligence + b.Intelligence;
             result.Wisdom = a.Wisdom + b.Wisdom;
             result.Charisma = a.Charisma + b.Charisma;
-
-            if (a.Adjective == "" && b.Adjective != "")
-            {
-                result.Adjective = b.Adjective;
-            }
-            else if (a.Adjective != "" && b.Adjective == "")
-            {
-                result.Adjective = a.Adjective;
-            }
-            else if (a.Adjective != "" && b.Adjective != "")
-            {
-                result.Adjective = a.Adjective;
-            }
 
             return result;
         }

@@ -7,7 +7,8 @@ namespace TRPG
     /// <summary>
     /// Container class for items
     /// </summary>
-    public class Inventory : IEnumerable
+    [Serializable]
+    public class Inventory
     {
         public int Capacity;
         public int MaxWeight;

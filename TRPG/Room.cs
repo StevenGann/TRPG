@@ -162,7 +162,7 @@ namespace TRPG
                 }
             }
 
-            return result;
+            return result + " ID:" + Convert.ToString(ID);
         }
 
         public void GenerateRandom(int _seed, List<Item> _itemsMaster, List<Weapon> _weaponsMaster, List<Monster> _monstersMaster)

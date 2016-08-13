@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace TRPG
 {
@@ -389,6 +390,12 @@ namespace TRPG
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Gem", 100, 1);
             ItemsMaster.Add(tempItem);
+
+            DataPack datapack = new DataPack(Directory.GetCurrentDirectory());
+            datapack.ItemsMaster = ItemsMaster;
+            datapack.MonstersMaster = MonstersMaster;
+            datapack.WeaponsMaster = WeaponsMaster;
+            datapack.Save();
         }
     }
 }
