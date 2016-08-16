@@ -329,58 +329,58 @@ namespace TRPG
             Random RNG = new Random();
 
             Monster tempMonster;
-            tempMonster = new Monster("Grue", 10, 75);
+            tempMonster = new Monster("Grue", "M_00", 10, 75);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Wraith", 5, 150);
+            tempMonster = new Monster("Wraith", "M_01", 5, 150);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Wendigo", 20, 50);
+            tempMonster = new Monster("Wendigo", "M_02", 20, 50);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Vampire", 10, 50);
+            tempMonster = new Monster("Vampire", "M_03", 10, 50);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Horta", 15, 35);
+            tempMonster = new Monster("Horta", "M_04", 15, 35);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Zombie", 5, 25);
+            tempMonster = new Monster("Zombie", "M_05", 5, 25);
             MonstersMaster.Add(tempMonster);
-            tempMonster = new Monster("Skeleton", 50, 50);
+            tempMonster = new Monster("Skeleton", "M_06", 50, 50);
             MonstersMaster.Add(tempMonster);
 
             for (int i = 0; i < 10; i++)
             {
                 Weapon tempWeapon;
-                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "sword", 10, 10);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "sword", "W_00", 10, 10);
                 WeaponsMaster.Add(tempWeapon);
-                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "knife", 20, 2);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "knife", "W_01", 20, 2);
                 WeaponsMaster.Add(tempWeapon);
-                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "club", 7, 25);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "club", "W_02", 7, 25);
                 WeaponsMaster.Add(tempWeapon);
-                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "dagger", 25, 5);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "dagger", "W_03", 25, 5);
                 WeaponsMaster.Add(tempWeapon);
-                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "saber", 15, 7);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "saber", "W_04", 15, 7);
                 WeaponsMaster.Add(tempWeapon);
-                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "stick", 7, 1);
+                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "stick", "W_05", 7, 1);
                 WeaponsMaster.Add(tempWeapon);
             }
 
             Item tempItem;
-            tempItem = new Item("Gold", 1, 0);
+            tempItem = new Item("Gold", "I_00", 1, 0);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Amulet", 200, 1);
+            tempItem = new Item("Amulet", "I_01", 200, 1);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Rock", 0, 5);
+            tempItem = new Item("Rock", "I_02", 0, 5);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Bone", 0, 1);
+            tempItem = new Item("Bone", "I_03", 0, 1);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Skull", 5, 1);
+            tempItem = new Item("Skull", "I_04", 5, 1);
             ItemsMaster.Add(tempItem);
+            tempItem = new Item("Potion", "I_05", 10, 1);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Potion", 10, 1);
+            tempItem = new Item("Poison", "I_06", 10, 1);
             ItemsMaster.Add(tempItem);
-            tempItem = new Item("Poison", 10, 1);
-            ItemsMaster.Add(tempItem);
-            tempItem = new Item("Gem", 100, 1);
+            tempItem = new Item("Gem", "I_07", 100, 1);
             ItemsMaster.Add(tempItem);
 
             DataPack datapack = new DataPack(Directory.GetCurrentDirectory());
+            datapack.AdjectivesMaster = Adjectives;
             datapack.ItemsMaster = ItemsMaster;
             datapack.MonstersMaster = MonstersMaster;
             datapack.WeaponsMaster = WeaponsMaster;

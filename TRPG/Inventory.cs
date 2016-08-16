@@ -132,11 +132,11 @@ namespace TRPG
                         matchCount++;
                         if (items[i].Adjectives.Count > 0 && targetAdjectives.Count > 0)
                         {
-                            foreach (Adjective adjectiveA in items[i].Adjectives)
+                            foreach (string adjectiveA in items[i].Adjectives)
                             {
                                 foreach (string adjectiveB in targetAdjectives)
                                 {
-                                    if (adjectiveA.Text.ToLower() == adjectiveB.ToLower())
+                                    if (adjectiveA.ToLower() == adjectiveB.ToLower())
                                     {
                                         matchCount++;
                                     }
@@ -204,11 +204,11 @@ namespace TRPG
                         matchCount++;
                         if (_playerInventory[i].Adjectives.Count > 0 && targetAdjectives.Count > 0)
                         {
-                            foreach (Adjective adjectiveA in _playerInventory[i].Adjectives)
+                            foreach (string adjectiveA in _playerInventory[i].Adjectives)
                             {
                                 foreach (string adjectiveB in targetAdjectives)
                                 {
-                                    if (adjectiveA.Text.ToLower() == adjectiveB.ToLower())
+                                    if (adjectiveA.ToLower() == adjectiveB.ToLower())
                                     {
                                         matchCount++;
                                     }

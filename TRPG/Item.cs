@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace TRPG
 {
@@ -14,7 +15,7 @@ namespace TRPG
         public string Lore = "";        //Optional lore for item
         private float weight = 0;        //Weight of item for inventory tracking
         private float value = 0;         //Trading value of item
-        public List<Adjective> Adjectives; //Adjectives to precede name
+        public List<string> Adjectives; //Adjectives to precede name
         public Buff Buffs;              //Buffs given to player when in inventory
         private int damage = 0;          //Base damage when used as a weapon
         private int defense = 0;         //Base defense
@@ -23,6 +24,11 @@ namespace TRPG
         private int uses = -1;           //For consumable items, how many more times the item can be used (-1 for infinite)
         private int experience = 0;      //Players have experience, items and monster give it
         public Inventory Contents;      //For container objects, like lockboxes and bags of holding
+        public string ID = "NULL";
+
+        //Serializer Ignored
+        [XmlIgnore]
+        public List<Adjective> AdjectiveIndex = new List<Adjective>();
 
         public float Weight
         {
@@ -130,24 +136,26 @@ namespace TRPG
 
         public Item()
         {
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = new Buff();
         }
 
-        public Item(string _name)
+        public Item(string _name, string _id)
         {
             Name = _name;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+            ID = _id;
         }
 
-        public Item(string _name, int _value, int _weight)
+        public Item(string _name, string _id, int _value, int _weight)
         {
             Name = _name;
             Value = _value;
             Weight = _weight;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+            ID = _id;
         }
 
         private Adjective sumAdjectives()
@@ -156,9 +164,24 @@ namespace TRPG
 
             if (Adjectives != null && Adjectives.Count > 0)
             {
-                foreach (Adjective a in Adjectives)
+                foreach (string a in Adjectives)
                 {
-                    result += a;
+                    result += findAdjective(a);
+                }
+            }
+
+            return result;
+        }
+
+        private Adjective findAdjective(string _adjective)
+        {
+            Adjective result = new Adjective();
+
+            foreach (Adjective a in AdjectiveIndex)
+            {
+                if (a.Text == _adjective)
+                {
+                    result = a;
                 }
             }
 
@@ -321,9 +344,9 @@ namespace TRPG
             string result = "";
             if (Adjectives.Count > 0)
             {
-                foreach (Adjective adjective in Adjectives)
+                foreach (string adjective in Adjectives)
                 {
-                    result += adjective.Text + " ";
+                    result += adjective + " ";
                 }
             }
 
@@ -360,22 +383,23 @@ namespace TRPG
             Value = 10;
             Damage = 10;
             Accuracy = 75;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = new Buff();
         }
 
-        public Weapon(string _name)
+        public Weapon(string _name, string _id)
         {
             Weight = 5;
             Value = 10;
             Damage = 10;
             Accuracy = 75;
             Name = _name;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+            ID = _id;
         }
 
-        public Weapon(string _name, int _value, int _weight)
+        public Weapon(string _name, string _id, int _value, int _weight)
         {
             Weight = 5;
             Value = 10;
@@ -386,11 +410,12 @@ namespace TRPG
             Damage = 1 + Damage * (int)((float)_weight / (float)Weight);
             Value = _value;
             Weight = _weight;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+            ID = _id;
         }
 
-        public Weapon(Adjective _adjective, string _name, int _value, int _weight)
+        public Weapon(Adjective _adjective, string _name, string _id, int _value, int _weight)
         {
             Weight = 5;
             Value = 10;
@@ -401,9 +426,10 @@ namespace TRPG
             Damage = 1 + Damage * (int)((float)_weight / (float)Weight);
             Value = _value;
             Weight = _weight;
-            Adjectives = new List<Adjective>();
-            Adjectives.Add(_adjective);
+            Adjectives = new List<string>();
+            Adjectives.Add(_adjective.Text);
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+            ID = _id;
         }
 
         new public Weapon Copy()
@@ -422,6 +448,7 @@ namespace TRPG
             result.Uses = Uses;
             result.Experience = Experience;
             result.Contents = Contents;
+            result.ID = ID + "_1";
             return result;
         }
     }
@@ -434,28 +461,30 @@ namespace TRPG
             Damage = 10;
             Defense = 10;
             Accuracy = 75;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = new Buff();
         }
 
-        public Monster(string _name)
+        public Monster(string _name, string _id)
         {
             Health = 25;
             Damage = 10;
             Accuracy = 75;
             Name = _name;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 50);
+            ID = _id;
         }
 
-        public Monster(string _name, int _damage, int _accuracy)
+        public Monster(string _name, string _id, int _damage, int _accuracy)
         {
             Health = 25;
             Damage = _damage;
             Accuracy = _accuracy;
             Name = _name;
-            Adjectives = new List<Adjective>();
+            Adjectives = new List<string>();
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
+            ID = _id;
         }
 
         new public Monster Copy()
@@ -474,6 +503,7 @@ namespace TRPG
             result.Uses = Uses;
             result.Experience = Experience;
             result.Contents = Contents;
+            result.ID = ID + "_1";
             return result;
         }
     }
@@ -504,6 +534,21 @@ namespace TRPG
             result.Uses = Uses;
             result.Experience = Experience;
             result.Contents = Contents;
+            return result;
+        }
+
+        public static Item FindItem(string _id, List<Item> _index)
+        {
+            Item result = new Item();
+
+            foreach (Item i in _index)
+            {
+                if (i.ID == _id)
+                {
+                    result = i;
+                }
+            }
+
             return result;
         }
     }

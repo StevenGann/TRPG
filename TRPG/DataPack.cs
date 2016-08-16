@@ -17,6 +17,7 @@ namespace TRPG
     {
         public string Path = "";
         public string Title = "Untitled";
+        public List<Adjective> AdjectivesMaster = new List<Adjective>();
         public List<Item> ItemsMaster = new List<Item>();
         public List<Weapon> WeaponsMaster = new List<Weapon>();
         public List<Monster> MonstersMaster = new List<Monster>();
@@ -38,9 +39,18 @@ namespace TRPG
             string path = Path + "\\" + Title + "\\";
             Console.WriteLine("Saving to " + path);
             Directory.CreateDirectory(path);
+            saveAdjectives(path);
             saveItems(path);
             saveMonsters(path);
             saveWeapons(path);
+        }
+
+        private void saveAdjectives(string _path)
+        {
+            XmlSerializer writer = new XmlSerializer(typeof(List<Adjective>));
+            StreamWriter file = new StreamWriter(_path + "adjectives.xml");
+            writer.Serialize(file, AdjectivesMaster);
+            file.Close();
         }
 
         private void saveItems(string _path)
