@@ -5,7 +5,7 @@ namespace TRPG_Tester
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             TRPG_core core = new TRPG_core();
 
@@ -13,7 +13,7 @@ namespace TRPG_Tester
             core.player.Name = Console.ReadLine();
 
             Random RNG = new Random();
-            Buff newStats = new Buff(10, 10, 10, 10, 10, 10);
+            Buff newStats;
 
             bool statsPicked = false;
             while (!statsPicked)

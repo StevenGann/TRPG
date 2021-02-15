@@ -112,7 +112,6 @@ namespace TRPG
             DrawBox(1, 1, Width - 2, _lines + 2, title, true);
             int i = 0;
             const int column_width = 20;
-            int column = 0;
 
             /*while (i < _lines && i < _inventory.Count)
             {
@@ -121,7 +120,7 @@ namespace TRPG
                 i++;
             }*/
 
-            while ((column + 1) * column_width < Width)
+            for (int column = 0; (column + 1) * column_width < Width; column++)
             {
                 while (i < (column + 1) * _lines && i < _inventory.Count)
                 {
@@ -138,16 +137,15 @@ namespace TRPG
                         Console.Write("╧");
                     }
 
-                    Console.SetCursorPosition(3 + (column * column_width), (i - column * _lines) + 2);
+                    Console.SetCursorPosition(3 + (column * column_width), (i - (column * _lines)) + 2);
                     _inventory[i].Write();
                     //Console.Write(column);
                     i++;
                 }
-                column++;
             }
         }
 
-        public void DrawBigText(int _x, int _y, int _width, int _height, string _bigtext, int _scroll)
+        public static void DrawBigText(int _x, int _y, int _width, int _height, string _bigtext, int _scroll)
         {
             //Scrub \n characters
             string bigText = _bigtext.Replace("\n", " \n "); //Line breaks are their own words.
@@ -173,18 +171,18 @@ namespace TRPG
             if (tempString != "") { Lines.Add(tempString); }
 
             //Print substrings into given area
-            int i = 0;
-            while (i < Lines.Count + _scroll && i < _height - 9)
+            for (
+            //Print substrings into given area
+            int i = 0; i < Lines.Count + _scroll && i < _height - 9; i++)
             {
                 Console.SetCursorPosition(_x, _y + i);
                 try
                 { SlowWrite(Lines[i + _scroll]); }
                 catch { }
-                i++;
             }
         }
 
-        private void SlowWrite(string _string)
+        private static void SlowWrite(string _string)
         {
             const int delay = 2;
             for (int i = 0; i < _string.Length; i++)

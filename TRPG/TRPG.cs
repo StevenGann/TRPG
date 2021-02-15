@@ -330,8 +330,7 @@ namespace TRPG
             };
             Random RNG = new Random();
 
-            Monster tempMonster;
-            tempMonster = new Monster("Grue", "M_00", 10, 75);
+            Monster tempMonster = new Monster("Grue", "M_00", 10, 75);
             MonstersMaster.Add(tempMonster);
             tempMonster = new Monster("Wraith", "M_01", 5, 150);
             MonstersMaster.Add(tempMonster);
@@ -348,8 +347,7 @@ namespace TRPG
 
             for (int i = 0; i < 10; i++)
             {
-                Weapon tempWeapon;
-                tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "sword", "W_00", 10, 10);
+                Weapon tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "sword", "W_00", 10, 10);
                 WeaponsMaster.Add(tempWeapon);
                 tempWeapon = new Weapon(Adjectives[RNG.Next(Adjectives.Count)], "knife", "W_01", 20, 2);
                 WeaponsMaster.Add(tempWeapon);
@@ -363,8 +361,7 @@ namespace TRPG
                 WeaponsMaster.Add(tempWeapon);
             }
 
-            Item tempItem;
-            tempItem = new Item("Gold", "I_00", 1, 0);
+            Item tempItem = new Item("Gold", "I_00", 1, 0);
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Amulet", "I_01", 200, 1);
             ItemsMaster.Add(tempItem);
@@ -381,11 +378,13 @@ namespace TRPG
             tempItem = new Item("Gem", "I_07", 100, 1);
             ItemsMaster.Add(tempItem);
 
-            DataPack datapack = new DataPack(Directory.GetCurrentDirectory());
-            datapack.AdjectivesMaster = Adjectives;
-            datapack.ItemsMaster = ItemsMaster;
-            datapack.MonstersMaster = MonstersMaster;
-            datapack.WeaponsMaster = WeaponsMaster;
+            DataPack datapack = new DataPack(Directory.GetCurrentDirectory())
+            {
+                AdjectivesMaster = Adjectives,
+                ItemsMaster = ItemsMaster,
+                MonstersMaster = MonstersMaster,
+                WeaponsMaster = WeaponsMaster
+            };
             datapack.Save();
         }
     }
