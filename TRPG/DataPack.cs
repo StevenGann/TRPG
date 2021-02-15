@@ -31,7 +31,7 @@ namespace TRPG
         public void Load()
         {
             string path = Path + "\\" + Title + "\\";
-            loadItems(path);
+            LoadItems(path);
         }
 
         public void Save()
@@ -39,13 +39,13 @@ namespace TRPG
             string path = Path + "\\" + Title + "\\";
             Console.WriteLine("Saving to " + path);
             Directory.CreateDirectory(path);
-            saveAdjectives(path);
-            saveItems(path);
-            saveMonsters(path);
-            saveWeapons(path);
+            SaveAdjectives(path);
+            SaveItems(path);
+            SaveMonsters(path);
+            SaveWeapons(path);
         }
 
-        private void saveAdjectives(string _path)
+        private void SaveAdjectives(string _path)
         {
             XmlSerializer writer = new XmlSerializer(typeof(List<Adjective>));
             StreamWriter file = new StreamWriter(_path + "adjectives.xml");
@@ -53,7 +53,7 @@ namespace TRPG
             file.Close();
         }
 
-        private void saveItems(string _path)
+        private void SaveItems(string _path)
         {
             XmlSerializer writer = new XmlSerializer(typeof(List<Item>));
             StreamWriter file = new StreamWriter(_path + "items.xml");
@@ -61,7 +61,7 @@ namespace TRPG
             file.Close();
         }
 
-        private void loadItems(string _path)
+        private void LoadItems(string _path)
         {
             XmlSerializer mySerializer = new XmlSerializer(typeof(List<Item>));
 
@@ -72,7 +72,7 @@ namespace TRPG
             myFileStream.Close();
         }
 
-        private void saveMonsters(string _path)
+        private void SaveMonsters(string _path)
         {
             XmlSerializer writer = new XmlSerializer(typeof(List<Monster>));
             StreamWriter file = new StreamWriter(_path + "monsters.xml");
@@ -80,7 +80,7 @@ namespace TRPG
             file.Close();
         }
 
-        private void saveWeapons(string _path)
+        private void SaveWeapons(string _path)
         {
             XmlSerializer writer = new XmlSerializer(typeof(List<Weapon>));
             StreamWriter file = new StreamWriter(_path + "weapons.xml");

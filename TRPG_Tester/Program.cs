@@ -3,7 +3,7 @@ using TRPG;
 
 namespace TRPG_Tester
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {
@@ -25,7 +25,7 @@ namespace TRPG_Tester
                 Console.WriteLine("Are these stats acceptable? (y/n)");
                 Console.WriteLine(newStats.ToString());
                 string response = Console.ReadLine();
-                if (response.ToLower() == "y")
+                if (string.Equals(response, "y", StringComparison.OrdinalIgnoreCase))
                 {
                     statsPicked = true;
                 }

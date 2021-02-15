@@ -41,7 +41,7 @@ clients, creating a simple online MUD.
 - [x] Inventory system
 - [x] Ability to describe and navigate dungeons
 - [ ] Load dungeons from files
-- [ ] Load game rules from external DLLs
+- [ ] Load game rules from external scripts
 - [ ] Finish combat mechanics
 - [ ] Improved random generation of items, monsters, and dungeons
 - [ ] Non-combat NPCs, like merchants
@@ -53,5 +53,4 @@ clients, creating a simple online MUD.
 - [ ] Survival
 - [ ] Zombies
 
-# How to help
-There's a lot to be done. Feel free to fork this repository and start working on anything, preferably something off the To Do list above.
+

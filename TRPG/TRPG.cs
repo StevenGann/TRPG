@@ -107,35 +107,35 @@ namespace TRPG
 
                 //Catch special commands outside of actual parsing
                 //These commands do not advance the game
-                if (newCommand.Text.ToLower() == "expand inventory")
+                if (string.Equals(newCommand.Text, "expand inventory", StringComparison.OrdinalIgnoreCase))
                 {
                     if (gui.InventorySize < 10) { gui.InventorySize++; }
                 }
-                else if (newCommand.Text.ToLower() == "shrink inventory")
+                else if (string.Equals(newCommand.Text, "shrink inventory", StringComparison.OrdinalIgnoreCase))
                 {
                     if (gui.InventorySize > 1) { gui.InventorySize--; }
                 }
-                else if (newCommand.Text.ToLower() == "open inventory")
+                else if (string.Equals(newCommand.Text, "open inventory", StringComparison.OrdinalIgnoreCase))
                 {
                     gui.InventorySize = 6;
                 }
-                else if (newCommand.Text.ToLower() == "close inventory")
+                else if (string.Equals(newCommand.Text, "close inventory", StringComparison.OrdinalIgnoreCase))
                 {
                     gui.InventorySize = 1;
                 }
-                else if (newCommand.Text.ToLower() == "scroll down" || newCommand.Text.ToLower() == "sd")
+                else if (string.Equals(newCommand.Text, "scroll down", StringComparison.OrdinalIgnoreCase) || string.Equals(newCommand.Text, "sd", StringComparison.OrdinalIgnoreCase))
                 {
                     //int maxScroll = 100;
                     //if (gui.MainScroll < maxScroll) { gui.MainScroll += Math.Min(maxScroll - gui.MainScroll, 4); }
                     gui.MainScroll += gui.Height / 2;
                     resetScroll = false;
                 }
-                else if (newCommand.Text.ToLower() == "scroll up" || newCommand.Text.ToLower() == "su")
+                else if (string.Equals(newCommand.Text, "scroll up", StringComparison.OrdinalIgnoreCase) || string.Equals(newCommand.Text, "su", StringComparison.OrdinalIgnoreCase))
                 {
                     if (gui.MainScroll > 0) { gui.MainScroll -= Math.Min(gui.MainScroll, Math.Max(1, (gui.Height / 2) - 5)); }
                     resetScroll = false;
                 }
-                else if (newCommand.Text.ToLower() == "help")
+                else if (string.Equals(newCommand.Text, "help", StringComparison.OrdinalIgnoreCase))
                 {
                     if (!showingHelp)
                     {
@@ -149,7 +149,7 @@ namespace TRPG
                         gui.MainText = underHelpText;
                     }
                 }
-                else if (newCommand.Text.ToLower() == "examine room" || newCommand.Text.ToLower() == "er")
+                else if (string.Equals(newCommand.Text, "examine room", StringComparison.OrdinalIgnoreCase) || string.Equals(newCommand.Text, "er", StringComparison.OrdinalIgnoreCase))
                 {
                     gui.MainText = dungeon.CurrentRoom.ExtraDescript;
                     gui.MainText += "\n\n";
@@ -157,7 +157,7 @@ namespace TRPG
                     gui.MainText += "\n\n";
                     gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
                 }
-                else if (newCommand.Text.ToLower() == "examine all")
+                else if (string.Equals(newCommand.Text, "examine all", StringComparison.OrdinalIgnoreCase))
                 {
                     gui.MainText = dungeon.CurrentRoom.ExtraDescript;
                     gui.MainText += "\n\n";
@@ -167,11 +167,11 @@ namespace TRPG
                     gui.MainText += "\n\n";
                     gui.MainText += player.ToString();
                 }
-                else if (newCommand.Text.ToLower() == "examine self")
+                else if (string.Equals(newCommand.Text, "examine self", StringComparison.OrdinalIgnoreCase))
                 {
                     gui.MainText = player.ToString();
                 }
-                else if (newCommand.Text.ToLower() == "go north")
+                else if (string.Equals(newCommand.Text, "go north", StringComparison.OrdinalIgnoreCase))
                 {
                     if (dungeon.GoNorth() > 0)
                     {
@@ -186,7 +186,7 @@ namespace TRPG
                         gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
                     }
                 }
-                else if (newCommand.Text.ToLower() == "go south")
+                else if (string.Equals(newCommand.Text, "go south", StringComparison.OrdinalIgnoreCase))
                 {
                     if (dungeon.GoSouth() > 0)
                     {
@@ -201,7 +201,7 @@ namespace TRPG
                         gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
                     }
                 }
-                else if (newCommand.Text.ToLower() == "go east")
+                else if (string.Equals(newCommand.Text, "go east", StringComparison.OrdinalIgnoreCase))
                 {
                     if (dungeon.GoEast() > 0)
                     {
@@ -216,7 +216,7 @@ namespace TRPG
                         gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
                     }
                 }
-                else if (newCommand.Text.ToLower() == "go west")
+                else if (string.Equals(newCommand.Text, "go west", StringComparison.OrdinalIgnoreCase))
                 {
                     if (dungeon.GoWest() > 0)
                     {

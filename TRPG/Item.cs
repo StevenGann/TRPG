@@ -34,7 +34,7 @@ namespace TRPG
         {
             get
             {
-                return weight * sumAdjectives().Weight;
+                return weight * SumAdjectives().Weight;
             }
 
             set
@@ -47,7 +47,7 @@ namespace TRPG
         {
             get
             {
-                return value * sumAdjectives().Value;
+                return value * SumAdjectives().Value;
             }
 
             set
@@ -60,7 +60,7 @@ namespace TRPG
         {
             get
             {
-                return (int)(((float)damage) * sumAdjectives().Damage);
+                return (int)(((float)damage) * SumAdjectives().Damage);
             }
 
             set
@@ -73,7 +73,7 @@ namespace TRPG
         {
             get
             {
-                return (int)(((float)defense) * sumAdjectives().Defense);
+                return (int)(((float)defense) * SumAdjectives().Defense);
             }
 
             set
@@ -86,7 +86,7 @@ namespace TRPG
         {
             get
             {
-                return (int)(((float)accuracy) * sumAdjectives().Accuracy);
+                return (int)(((float)accuracy) * SumAdjectives().Accuracy);
             }
 
             set
@@ -99,7 +99,7 @@ namespace TRPG
         {
             get
             {
-                return (int)(((float)health) * sumAdjectives().Health);
+                return (int)(((float)health) * SumAdjectives().Health);
             }
 
             set
@@ -112,7 +112,7 @@ namespace TRPG
         {
             get
             {
-                return (int)(((float)uses) * sumAdjectives().Uses);
+                return (int)(((float)uses) * SumAdjectives().Uses);
             }
 
             set
@@ -125,7 +125,7 @@ namespace TRPG
         {
             get
             {
-                return (int)(((float)experience) * sumAdjectives().Experience);
+                return (int)(((float)experience) * SumAdjectives().Experience);
             }
 
             set
@@ -158,22 +158,22 @@ namespace TRPG
             ID = _id;
         }
 
-        private Adjective sumAdjectives()
+        private Adjective SumAdjectives()
         {
             Adjective result = new Adjective();
 
-            if (Adjectives != null && Adjectives.Count > 0)
+            if (Adjectives?.Count > 0)
             {
                 foreach (string a in Adjectives)
                 {
-                    result += findAdjective(a);
+                    result += FindAdjective(a);
                 }
             }
 
             return result;
         }
 
-        private Adjective findAdjective(string _adjective)
+        private Adjective FindAdjective(string _adjective)
         {
             Adjective result = new Adjective();
 
@@ -231,7 +231,7 @@ namespace TRPG
             }
 
             // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
+            if ((a is null) || (b is null))
             {
                 return false;
             }
@@ -255,11 +255,7 @@ namespace TRPG
 
         public static bool operator !=(Item a, Item b)
         {
-            bool result = false;
-
-            result = !(a == b);
-
-            return result;
+            return !(a == b);
         }
 
         public override string ToString()
@@ -357,21 +353,38 @@ namespace TRPG
 
         public Item Copy()
         {
-            Item result = new Item();
-            result.Name = Name;
-            result.Lore = Lore;
-            result.Weight = Weight;
-            result.Value = Value;
-            result.Adjectives = Adjectives;
-            result.Buffs = Buffs;
-            result.Damage = Damage;
-            result.Defense = Defense;
-            result.Accuracy = Accuracy;
-            result.Health = Health;
-            result.Uses = Uses;
-            result.Experience = Experience;
-            result.Contents = Contents;
+            Item result = new Item
+            {
+                Name = Name,
+                Lore = Lore,
+                Weight = Weight,
+                Value = Value,
+                Adjectives = Adjectives,
+                Buffs = Buffs,
+                Damage = Damage,
+                Defense = Defense,
+                Accuracy = Accuracy,
+                Health = Health,
+                Uses = Uses,
+                Experience = Experience,
+                Contents = Contents
+            };
             return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not Item)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
         }
     }
 
@@ -434,21 +447,23 @@ namespace TRPG
 
         new public Weapon Copy()
         {
-            Weapon result = new Weapon();
-            result.Name = Name;
-            result.Lore = Lore;
-            result.Weight = Weight;
-            result.Value = Value;
-            result.Adjectives = Adjectives;
-            result.Buffs = Buffs;
-            result.Damage = Damage;
-            result.Defense = Defense;
-            result.Accuracy = Accuracy;
-            result.Health = Health;
-            result.Uses = Uses;
-            result.Experience = Experience;
-            result.Contents = Contents;
-            result.ID = ID + "_1";
+            Weapon result = new Weapon
+            {
+                Name = Name,
+                Lore = Lore,
+                Weight = Weight,
+                Value = Value,
+                Adjectives = Adjectives,
+                Buffs = Buffs,
+                Damage = Damage,
+                Defense = Defense,
+                Accuracy = Accuracy,
+                Health = Health,
+                Uses = Uses,
+                Experience = Experience,
+                Contents = Contents,
+                ID = ID + "_1"
+            };
             return result;
         }
     }
@@ -489,21 +504,23 @@ namespace TRPG
 
         new public Monster Copy()
         {
-            Monster result = new Monster();
-            result.Name = Name;
-            result.Lore = Lore;
-            result.Weight = Weight;
-            result.Value = Value;
-            result.Adjectives = Adjectives;
-            result.Buffs = Buffs;
-            result.Damage = Damage;
-            result.Defense = Defense;
-            result.Accuracy = Accuracy;
-            result.Health = Health;
-            result.Uses = Uses;
-            result.Experience = Experience;
-            result.Contents = Contents;
-            result.ID = ID + "_1";
+            Monster result = new Monster
+            {
+                Name = Name,
+                Lore = Lore,
+                Weight = Weight,
+                Value = Value,
+                Adjectives = Adjectives,
+                Buffs = Buffs,
+                Damage = Damage,
+                Defense = Defense,
+                Accuracy = Accuracy,
+                Health = Health,
+                Uses = Uses,
+                Experience = Experience,
+                Contents = Contents,
+                ID = ID + "_1"
+            };
             return result;
         }
     }
@@ -520,20 +537,22 @@ namespace TRPG
 
         new public Player Copy()
         {
-            Player result = new Player();
-            result.Name = Name;
-            result.Lore = Lore;
-            result.Weight = Weight;
-            result.Value = Value;
-            result.Adjectives = Adjectives;
-            result.Buffs = Buffs;
-            result.Damage = Damage;
-            result.Defense = Defense;
-            result.Accuracy = Accuracy;
-            result.Health = Health;
-            result.Uses = Uses;
-            result.Experience = Experience;
-            result.Contents = Contents;
+            Player result = new Player
+            {
+                Name = Name,
+                Lore = Lore,
+                Weight = Weight,
+                Value = Value,
+                Adjectives = Adjectives,
+                Buffs = Buffs,
+                Damage = Damage,
+                Defense = Defense,
+                Accuracy = Accuracy,
+                Health = Health,
+                Uses = Uses,
+                Experience = Experience,
+                Contents = Contents
+            };
             return result;
         }
 

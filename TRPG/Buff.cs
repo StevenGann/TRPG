@@ -117,21 +117,20 @@ namespace TRPG
                 result += " Charisma\n";
             }
 
-            result = result.Substring(0, result.Length - 1);
-
-            return result;
+            return result[0..^1];
         }
 
         public static Buff operator +(Buff a, Buff b)
         {
-            Buff result = new Buff();
-
-            result.Strength = a.Strength + b.Strength;
-            result.Dexterity = a.Dexterity + b.Dexterity;
-            result.Constitution = a.Constitution + b.Constitution;
-            result.Intelligence = a.Intelligence + b.Intelligence;
-            result.Wisdom = a.Wisdom + b.Wisdom;
-            result.Charisma = a.Charisma + b.Charisma;
+            Buff result = new Buff
+            {
+                Strength = a.Strength + b.Strength,
+                Dexterity = a.Dexterity + b.Dexterity,
+                Constitution = a.Constitution + b.Constitution,
+                Intelligence = a.Intelligence + b.Intelligence,
+                Wisdom = a.Wisdom + b.Wisdom,
+                Charisma = a.Charisma + b.Charisma
+            };
 
             return result;
         }

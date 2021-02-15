@@ -95,13 +95,12 @@ namespace TRPG
 
             for (int i = 0; i < items.Count; i++)
             {
-                if (items[i].Name.ToLower() == _text.ToLower() && !(items[i] is Monster))
+                if (string.Equals(items[i].Name, _text, StringComparison.OrdinalIgnoreCase) && !(items[i] is Monster))
                 {
                     _playerInventory.Add(items[i]);
                     items.RemoveAt(i);
 
-                    result = "You take the " + _text + ".";
-                    return result;
+                    return "You take the " + _text + ".";
                 }
             }
 
@@ -115,7 +114,7 @@ namespace TRPG
 
             if (_tokens.Count >= 2) //Make sure the given tokens are valid
             {
-                while (_tokens[tokenOffset].Text.ToLower() != "take")
+                while (!string.Equals(_tokens[tokenOffset].Text, "take", StringComparison.OrdinalIgnoreCase))
                 {
                     tokenOffset++;
                 }
@@ -127,7 +126,7 @@ namespace TRPG
                 {
                     int matchCount = 0;
                     //If the name is a match
-                    if (items[i].Name.ToLower() == targetName.ToLower() && !(items[i] is Monster))
+                    if (string.Equals(items[i].Name, targetName, StringComparison.OrdinalIgnoreCase) && !(items[i] is Monster))
                     {
                         matchCount++;
                         if (items[i].Adjectives.Count > 0 && targetAdjectives.Count > 0)
@@ -136,7 +135,7 @@ namespace TRPG
                             {
                                 foreach (string adjectiveB in targetAdjectives)
                                 {
-                                    if (adjectiveA.ToLower() == adjectiveB.ToLower())
+                                    if (string.Equals(adjectiveA, adjectiveB, StringComparison.OrdinalIgnoreCase))
                                     {
                                         matchCount++;
                                     }
@@ -167,13 +166,12 @@ namespace TRPG
 
             for (int i = 0; i < _playerInventory.Count; i++)
             {
-                if (_playerInventory[i].Name.ToLower() == _text.ToLower())
+                if (string.Equals(_playerInventory[i].Name, _text, StringComparison.OrdinalIgnoreCase))
                 {
                     items.Add(_playerInventory[i]);
                     _playerInventory.RemoveAt(i);
 
-                    result = "You drop the " + _text + ".";
-                    return result;
+                    return "You drop the " + _text + ".";
                 }
             }
 
@@ -187,7 +185,7 @@ namespace TRPG
 
             if (_tokens.Count >= 2) //Make sure the given tokens are valid
             {
-                while (_tokens[tokenOffset].Text.ToLower() != "drop")
+                while (!string.Equals(_tokens[tokenOffset].Text, "drop", StringComparison.OrdinalIgnoreCase))
                 {
                     tokenOffset++;
                 }
@@ -199,7 +197,7 @@ namespace TRPG
                 {
                     int matchCount = 0;
                     //If the name is a match
-                    if (_playerInventory[i].Name.ToLower() == targetName.ToLower() && !(_playerInventory[i] is Monster))
+                    if (string.Equals(_playerInventory[i].Name, targetName, StringComparison.OrdinalIgnoreCase) && !(_playerInventory[i] is Monster))
                     {
                         matchCount++;
                         if (_playerInventory[i].Adjectives.Count > 0 && targetAdjectives.Count > 0)
@@ -208,7 +206,7 @@ namespace TRPG
                             {
                                 foreach (string adjectiveB in targetAdjectives)
                                 {
-                                    if (adjectiveA.ToLower() == adjectiveB.ToLower())
+                                    if (string.Equals(adjectiveA, adjectiveB, StringComparison.OrdinalIgnoreCase))
                                     {
                                         matchCount++;
                                     }
@@ -252,8 +250,7 @@ namespace TRPG
             {
                 if (item.Name.ToLower() == targetName)
                 {
-                    result = item;
-                    return result;
+                    return item;
                 }
             }
 
@@ -274,8 +271,7 @@ namespace TRPG
             {
                 if (item.Name.ToLower() == targetName)
                 {
-                    result = item;
-                    return result;
+                    return item;
                 }
             }
 

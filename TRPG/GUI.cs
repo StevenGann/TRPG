@@ -111,7 +111,7 @@ namespace TRPG
 
             DrawBox(1, 1, Width - 2, _lines + 2, title, true);
             int i = 0;
-            int column_width = 20;
+            const int column_width = 20;
             int column = 0;
 
             /*while (i < _lines && i < _inventory.Count)
@@ -147,9 +147,8 @@ namespace TRPG
             }
         }
 
-        public int DrawBigText(int _x, int _y, int _width, int _height, string _bigtext, int _scroll)
+        public void DrawBigText(int _x, int _y, int _width, int _height, string _bigtext, int _scroll)
         {
-            int result = 0;
             //Scrub \n characters
             string bigText = _bigtext.Replace("\n", " \n "); //Line breaks are their own words.
             //Split big text into List of words
@@ -183,14 +182,11 @@ namespace TRPG
                 catch { }
                 i++;
             }
-
-            return result;
         }
 
         private void SlowWrite(string _string)
         {
-            Random RNG = new Random(_string.GetHashCode());
-            int delay = 1;//= 5 + RNG.Next(10);
+            const int delay = 2;
             for (int i = 0; i < _string.Length; i++)
             {
                 Thread.Sleep(delay);
@@ -205,14 +201,14 @@ namespace TRPG
             {
                 //Console.SetCursorPosition(3, Height - ((_lines + 5) - i));
                 Console.SetCursorPosition(3, Height - (_lines + 3) - i);
-                _messages[_messages.Count - (i + 1)].Write();
+                _messages[^(i + 1)].Write();
             }
         }
 
-        public int DrawBox(int _x, int _y, int _width, int _height, string _title, bool _bold)
+        public static int DrawBox(int _x, int _y, int _width, int _height, string _title, bool _bold)
         {
             int result = 0;
-            int x = _x;
+            int x;
             int y = _y;
             char h = '═';
             char v = '║';
@@ -299,7 +295,7 @@ namespace TRPG
         }
 
         [DllImport("user32.dll")]
-        public static extern bool ShowWindow(System.IntPtr hWnd, int cmdShow);
+        internal static extern bool ShowWindow(IntPtr hWnd, int cmdShow);
 
         private static void Maximize()
         {

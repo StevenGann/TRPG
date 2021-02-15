@@ -23,8 +23,7 @@ namespace TRPG
                     result += Convert.ToString(token.Value);
                     result += ",";
                 }
-                result = result.TrimEnd(',');
-                return result;
+                return result.TrimEnd(',');
             }
         }
 

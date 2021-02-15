@@ -16,7 +16,7 @@ namespace TRPG
         }
 
         private Room currentRoom;
-        private List<KeyValuePair<int, Room>> Rooms;
+        private readonly List<KeyValuePair<int, Room>> Rooms;
 
         public Dungeon()
         {
@@ -103,11 +103,6 @@ namespace TRPG
                 result = 1;
             }
             return result;
-        }
-
-        public void LoadFromFile(string _path)
-        {
-            //Eventually, load dungeon from a file.
         }
 
         public void GenerateRandom(int _seed, List<Item> _itemsMaster, List<Weapon> _weaponsMaster, List<Monster> _monstersMaster)

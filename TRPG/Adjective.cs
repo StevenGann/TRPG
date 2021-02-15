@@ -45,24 +45,25 @@
 
         public static Adjective operator +(Adjective a, Adjective b)
         {
-            Adjective result = new Adjective();
+            Adjective result = new Adjective
+            {
+                Text = a.Text,
 
-            result.Text = a.Text;
-
-            result.Strength = a.Strength * b.Strength;
-            result.Dexterity = a.Dexterity * b.Dexterity;
-            result.Constitution = a.Constitution * b.Constitution;
-            result.Intelligence = a.Intelligence * b.Intelligence;
-            result.Wisdom = a.Wisdom * b.Wisdom;
-            result.Charisma = a.Charisma * b.Charisma;
-            result.Weight = a.Weight * b.Weight;
-            result.Value = a.Value * b.Value;
-            result.Damage = a.Damage * b.Damage;
-            result.Defense = a.Defense * b.Defense;
-            result.Accuracy = a.Accuracy * b.Accuracy;
-            result.Health = a.Health * b.Health;
-            result.Uses = a.Uses * b.Uses;
-            result.Experience = a.Experience * b.Experience;
+                Strength = a.Strength * b.Strength,
+                Dexterity = a.Dexterity * b.Dexterity,
+                Constitution = a.Constitution * b.Constitution,
+                Intelligence = a.Intelligence * b.Intelligence,
+                Wisdom = a.Wisdom * b.Wisdom,
+                Charisma = a.Charisma * b.Charisma,
+                Weight = a.Weight * b.Weight,
+                Value = a.Value * b.Value,
+                Damage = a.Damage * b.Damage,
+                Defense = a.Defense * b.Defense,
+                Accuracy = a.Accuracy * b.Accuracy,
+                Health = a.Health * b.Health,
+                Uses = a.Uses * b.Uses,
+                Experience = a.Experience * b.Experience
+            };
 
             return result;
         }
