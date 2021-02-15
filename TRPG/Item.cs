@@ -374,12 +374,7 @@ namespace TRPG
 
         public override bool Equals(object obj)
         {
-            if (obj is not Item)
-            {
-                return false;
-            }
-
-            return true;
+            return obj is Item;
         }
 
         public override int GetHashCode()
@@ -419,8 +414,8 @@ namespace TRPG
             Damage = 10;
             Accuracy = 75;
             Name = _name;
-            Accuracy = 1 + Accuracy * (int)((float)_value / (float)Value);
-            Damage = 1 + Damage * (int)((float)_weight / (float)Weight);
+            Accuracy = 1 + (Accuracy * (int)((float)_value / (float)Value));
+            Damage = 1 + (Damage * (int)(_weight / (float)Weight));
             Value = _value;
             Weight = _weight;
             Adjectives = new List<string>();
@@ -435,12 +430,14 @@ namespace TRPG
             Damage = 10;
             Accuracy = 75;
             Name = _name;
-            Accuracy = 1 + Accuracy * (int)((float)_value / (float)Value);
-            Damage = 1 + Damage * (int)((float)_weight / (float)Weight);
+            Accuracy = 1 + (Accuracy * (int)((float)_value / (float)Value));
+            Damage = 1 + (Damage * (int)((float)_weight / (float)Weight));
             Value = _value;
             Weight = _weight;
-            Adjectives = new List<string>();
-            Adjectives.Add(_adjective.Text);
+            Adjectives = new List<string>
+            {
+                _adjective.Text
+            };
             Buffs = Buff.Randomized(_name.GetHashCode(), 10);
             ID = _id;
         }

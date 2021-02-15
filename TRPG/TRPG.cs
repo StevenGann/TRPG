@@ -18,11 +18,11 @@ namespace TRPG
         public Dungeon dungeon;
 
         private bool showingHelp = false;
-        private string helpText = "";
+        private readonly string helpText = "";
         private string underHelpText = "";
         private bool resetScroll = true;
 
-        private GUI gui;
+        private readonly GUI gui;
 
         /// <summary>
         /// Most of the basic game configuration is done here.
@@ -71,9 +71,9 @@ namespace TRPG
         {
             foreach (Item monster in dungeon.CurrentRoom.Contents)
             {
-                if (monster is Monster)
+                if (monster is Monster monster2)
                 {
-                    gui.MainText += "\n" + GameRules.MonsterAttacksPlayer(this, player.Buffs + player.Contents, (Monster)monster, (int)DateTime.Now.Ticks & 0x0000FFFF);
+                    gui.MainText += "\n" + GameRules.MonsterAttacksPlayer(this, player.Buffs + player.Contents, monster2, (int)DateTime.Now.Ticks & 0x0000FFFF);
                 }
 
                 if (player.Health <= 0)
@@ -98,7 +98,7 @@ namespace TRPG
             if (_input != "")
             {
                 messages.Add(new Message("Input: " + _input));
-                messages[messages.Count - 1].Foreground = ConsoleColor.Cyan;
+                messages[^1].Foreground = ConsoleColor.Cyan;
                 Command newCommand = parser.Parse(_input);
                 if (resetScroll)
                 { gui.MainScroll = 0; }
@@ -237,7 +237,7 @@ namespace TRPG
                     {
                         bool turnConsumed = false;
                         messages.Add(new Message("Pattern: " + newCommand.Pattern));//For debugging. Remove later!
-                        messages[messages.Count - 1].Foreground = ConsoleColor.DarkGray;
+                        messages[^1].Foreground = ConsoleColor.DarkGray;
 
                         if (newCommand.Tokens[0].Value == 1)//If the command starts with a verb
                         {
@@ -319,13 +319,15 @@ namespace TRPG
             WeaponsMaster = new List<Weapon>();
             MonstersMaster = new List<Monster>();
 
-            List<Adjective> Adjectives = new List<Adjective>();
-            Adjectives.Add(new Adjective("large", 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.5f, 1.75f, 1.5f, 1.0f, 1.1f, 0.9f, 1.0f, 1.0f, 1.0f));
-            Adjectives.Add(new Adjective("small", 1.0f, 1.5f, 1.0f, 1.0f, 1.0f, 0.75f, 0.75f, 0.75f, 1.0f, 0.9f, 1.25f, 1.0f, 1.0f, 1.0f));
-            Adjectives.Add(new Adjective("sharp", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.0f, 1.75f, 2.0f, 1.0f, 1.5f, 1.0f, 1.0f, 1.0f));
-            Adjectives.Add(new Adjective("dull", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 0.75f, 1.0f, 0.9f, 1.0f, 1.0f, 1.0f));
-            Adjectives.Add(new Adjective("polished", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 1.1f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
-            Adjectives.Add(new Adjective("dirty", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+            List<Adjective> Adjectives = new List<Adjective>
+            {
+                new Adjective("large", 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.5f, 1.75f, 1.5f, 1.0f, 1.1f, 0.9f, 1.0f, 1.0f, 1.0f),
+                new Adjective("small", 1.0f, 1.5f, 1.0f, 1.0f, 1.0f, 0.75f, 0.75f, 0.75f, 1.0f, 0.9f, 1.25f, 1.0f, 1.0f, 1.0f),
+                new Adjective("sharp", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.0f, 1.75f, 2.0f, 1.0f, 1.5f, 1.0f, 1.0f, 1.0f),
+                new Adjective("dull", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 0.75f, 1.0f, 0.9f, 1.0f, 1.0f, 1.0f),
+                new Adjective("polished", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 1.1f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+                new Adjective("dirty", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f)
+            };
             Random RNG = new Random();
 
             Monster tempMonster;

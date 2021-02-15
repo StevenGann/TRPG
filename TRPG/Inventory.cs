@@ -47,7 +47,7 @@ namespace TRPG
             }
         }
 
-        private List<Item> items = null;
+        private readonly List<Item> items = null;
 
         public Inventory()
         {
@@ -91,7 +91,7 @@ namespace TRPG
         //Avoid using this one.
         public string Take(string _text, Inventory _playerInventory)
         {
-            string result = "You cannot take that.";
+            const string result = "You cannot take that.";
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -120,7 +120,7 @@ namespace TRPG
                 }
                 string targetName = _tokens[tokenOffset + 1].Text;
                 List<string> targetAdjectives = _tokens[tokenOffset + 1].Adjectives;
-                int bestMatch = 0;
+                const int bestMatch = 0;
                 int bestMatchIndex = -1;
                 for (int i = 0; i < items.Count; i++)
                 {
@@ -162,7 +162,7 @@ namespace TRPG
 
         public string Drop(string _text, Inventory _playerInventory)
         {
-            string result = "You cannot drop that.";
+            const string result = "You cannot drop that.";
 
             for (int i = 0; i < _playerInventory.Count; i++)
             {
@@ -191,7 +191,7 @@ namespace TRPG
                 }
                 string targetName = _tokens[tokenOffset + 1].Text;
                 List<string> targetAdjectives = _tokens[tokenOffset + 1].Adjectives;
-                int bestMatch = 0;
+                const int bestMatch = 0;
                 int bestMatchIndex = -1;
                 for (int i = 0; i < _playerInventory.Count; i++)
                 {

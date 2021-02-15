@@ -11,37 +11,43 @@ namespace TRPG
         public Parser()
         {
             //Load dictionaries from file. Or hardcoded will do for now.
-            Verbs = new List<string>();
-            Verbs.Add("take");
-            Verbs.Add("drop");
-            Verbs.Add("examine");
-            Verbs.Add("attack");
+            Verbs = new List<string>
+            {
+                "take",
+                "drop",
+                "examine",
+                "attack"
+            };
 
             //Eventually, Adjectives will be assembled by scanning all loaded Items.
-            Adjectives = new List<string>();
-            Adjectives.Add("sharp");
-            Adjectives.Add("dull");
-            Adjectives.Add("deadly");
-            Adjectives.Add("blunt");
-            Adjectives.Add("rusty");
-            Adjectives.Add("glowing");
-            Adjectives.Add("shiny");
-            Adjectives.Add("polished");
-            Adjectives.Add("dirty");
-            Adjectives.Add("extreme");
-            Adjectives.Add("small");
-            Adjectives.Add("large");
-            Adjectives.Add("tiny");
-            Adjectives.Add("giant");
-            Adjectives.Add("slimy");
-            Adjectives.Add("greasy");
-            Adjectives.Add("smelly");
+            Adjectives = new List<string>
+            {
+                "sharp",
+                "dull",
+                "deadly",
+                "blunt",
+                "rusty",
+                "glowing",
+                "shiny",
+                "polished",
+                "dirty",
+                "extreme",
+                "small",
+                "large",
+                "tiny",
+                "giant",
+                "slimy",
+                "greasy",
+                "smelly"
+            };
         }
 
         public Command Parse(string _input)
         {
-            Command result = new Command();
-            result.Text = _input.ToLower();
+            Command result = new Command
+            {
+                Text = _input.ToLower()
+            };
             char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
             List<string> Words = result.Text.Split(delimiterChars).ToList<string>();
             List<string> adjectiveStack = new List<string>();
