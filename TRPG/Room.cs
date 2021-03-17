@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TRPG
 {
-    public class Room
+    public class Room : ICommandProvider
     {
         public Inventory Contents;   //Everything in the room
         public string Description;   //General description of the room
@@ -244,6 +244,15 @@ namespace TRPG
                 Description += "are several monsters ";
             }
             Description += "in here.\n";
+        }
+
+        public string[] GetCommands()
+        {
+            return new string[]
+            {
+                "look at",
+                "examine"
+            };
         }
     }
 }

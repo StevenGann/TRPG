@@ -56,16 +56,6 @@ namespace TRPG
             if (_monster.Health <= 0)
             {
                 result += "The " + _monster.Name + " is killed! ";
-                for (int i = 0; i < _gameState.dungeon.CurrentRoom.Contents.Count; i++)
-                {
-                    if (_gameState.dungeon.CurrentRoom.Contents[i] is Monster)
-                    {
-                        if (_gameState.dungeon.CurrentRoom.Contents[i] == _monster)
-                        {
-                            _gameState.dungeon.CurrentRoom.Contents.RemoveAt(i);
-                        }
-                    }
-                }
             }
 
             return result + "\n";

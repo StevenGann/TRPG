@@ -9,12 +9,12 @@ namespace TRPG
     /// Generic Item
     /// </summary>
     [Serializable]
-    public class Item
+    public class Item : ICommandProvider
     {
         public string Name = "";        //Name of item
         public string Lore = "";        //Optional lore for item
-        private float weight = 0;        //Weight of item for inventory tracking
-        private float value = 0;         //Trading value of item
+        private double weight = 0;        //Weight of item for inventory tracking
+        private double value = 0;         //Trading value of item
         public List<string> Adjectives; //Adjectives to precede name
         public Buff Buffs;              //Buffs given to player when in inventory
         private int damage = 0;          //Base damage when used as a weapon
@@ -30,7 +30,7 @@ namespace TRPG
         [XmlIgnore]
         public List<Adjective> AdjectiveIndex = new List<Adjective>();
 
-        public float Weight
+        public double Weight
         {
             get
             {
@@ -43,7 +43,7 @@ namespace TRPG
             }
         }
 
-        public float Value
+        public double Value
         {
             get
             {
@@ -381,6 +381,14 @@ namespace TRPG
         {
             return 0;
         }
+
+        public virtual string[] GetCommands()
+        {
+            return new string[]
+            {
+                "discard"
+            };
+        }
     }
 
     public class Weapon : Item
@@ -463,6 +471,15 @@ namespace TRPG
             };
             return result;
         }
+
+        public override string[] GetCommands()
+        {
+            return new string[]
+            {
+                "discard",
+                "equip",
+            };
+        }
     }
 
     public class Monster : Item
@@ -520,6 +537,14 @@ namespace TRPG
             };
             return result;
         }
+
+        public override string[] GetCommands()
+        {
+            return new string[]
+            {
+                "attack",
+            };
+        }
     }
 
     public class Player : Monster
@@ -528,7 +553,6 @@ namespace TRPG
         {
             Health = 100;
             Adjectives = null;
-            Buffs = new Buff(10, 10, 10, 10, 10, 10);
             Contents = new Inventory();
         }
 

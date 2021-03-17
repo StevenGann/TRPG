@@ -19,7 +19,7 @@ namespace TRPG_Tester
             while (!statsPicked)
             {
                 Console.Clear();
-                newStats = new Buff(10, 10, 10, 10, 10, 10);
+                newStats = new Buff();
                 newStats.Scramble(RNG.Next(), 5 + RNG.Next(10));
                 newStats.Clamp();
                 Console.WriteLine("Are these stats acceptable? (y/n)");

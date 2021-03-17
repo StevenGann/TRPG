@@ -23,50 +23,40 @@ namespace TRPG
         {
         }
 
-        public Buff(int _str, int _dex, int _con, int _int, int _wis, int _cha)
+        public void Scramble(int Seed, int Scalar)
         {
-            Strength = _str;
-            Dexterity = _dex;
-            Constitution = _con;
-            Intelligence = _int;
-            Wisdom = _wis;
-            Charisma = _cha;
+            Random RNG = new Random(Seed);
+            Strength += RNG.Next(Scalar) - RNG.Next(Scalar);
+            Dexterity += RNG.Next(Scalar) - RNG.Next(Scalar);
+            Constitution += RNG.Next(Scalar) - RNG.Next(Scalar);
+            Intelligence += RNG.Next(Scalar) - RNG.Next(Scalar);
+            Wisdom += RNG.Next(Scalar) - RNG.Next(Scalar);
+            Charisma += RNG.Next(Scalar) - RNG.Next(Scalar);
         }
 
-        public void Scramble(int _seed, int _scalar)
-        {
-            Random RNG = new Random(_seed);
-            Strength += RNG.Next(_scalar) - RNG.Next(_scalar);
-            Dexterity += RNG.Next(_scalar) - RNG.Next(_scalar);
-            Constitution += RNG.Next(_scalar) - RNG.Next(_scalar);
-            Intelligence += RNG.Next(_scalar) - RNG.Next(_scalar);
-            Wisdom += RNG.Next(_scalar) - RNG.Next(_scalar);
-            Charisma += RNG.Next(_scalar) - RNG.Next(_scalar);
-        }
-
-        public static Buff Randomized(int _seed, int _scalar)
+        public static Buff Randomized(int Seed, int Scalar)
         {
             Buff result = new Buff();
-            Random RNG = new Random(_seed);
-            int t = 5 * (_scalar / 10);
+            Random RNG = new Random(Seed);
+            int t = 5 * (Scalar / 10);
 
-            if (RNG.Next(100) <= t) { result.Strength += RNG.Next(_scalar); }
-            if (RNG.Next(100) <= t) { result.Strength -= RNG.Next(_scalar); }
+            if (RNG.Next(100) <= t) { result.Strength += RNG.Next(Scalar); }
+            if (RNG.Next(100) <= t) { result.Strength -= RNG.Next(Scalar); }
 
-            if (RNG.Next(100) <= t) { result.Dexterity += RNG.Next(_scalar); }
-            if (RNG.Next(100) <= t) { result.Dexterity -= RNG.Next(_scalar); }
+            if (RNG.Next(100) <= t) { result.Dexterity += RNG.Next(Scalar); }
+            if (RNG.Next(100) <= t) { result.Dexterity -= RNG.Next(Scalar); }
 
-            if (RNG.Next(100) <= t) { result.Constitution += RNG.Next(_scalar); }
-            if (RNG.Next(100) <= t) { result.Constitution -= RNG.Next(_scalar); }
+            if (RNG.Next(100) <= t) { result.Constitution += RNG.Next(Scalar); }
+            if (RNG.Next(100) <= t) { result.Constitution -= RNG.Next(Scalar); }
 
-            if (RNG.Next(100) <= t) { result.Intelligence += RNG.Next(_scalar); }
-            if (RNG.Next(100) <= t) { result.Intelligence -= RNG.Next(_scalar); }
+            if (RNG.Next(100) <= t) { result.Intelligence += RNG.Next(Scalar); }
+            if (RNG.Next(100) <= t) { result.Intelligence -= RNG.Next(Scalar); }
 
-            if (RNG.Next(100) <= t) { result.Wisdom += RNG.Next(_scalar); }
-            if (RNG.Next(100) <= t) { result.Wisdom -= RNG.Next(_scalar); }
+            if (RNG.Next(100) <= t) { result.Wisdom += RNG.Next(Scalar); }
+            if (RNG.Next(100) <= t) { result.Wisdom -= RNG.Next(Scalar); }
 
-            if (RNG.Next(100) <= t) { result.Charisma += RNG.Next(_scalar); }
-            if (RNG.Next(100) <= t) { result.Charisma -= RNG.Next(_scalar); }
+            if (RNG.Next(100) <= t) { result.Charisma += RNG.Next(Scalar); }
+            if (RNG.Next(100) <= t) { result.Charisma -= RNG.Next(Scalar); }
 
             return result;
         }

@@ -11,11 +11,11 @@ namespace TRPG
     {
         public Player player;
         public List<Message> messages = new List<Message>();
-        public Parser parser = new Parser();
         public List<Item> ItemsMaster;   //}
         public List<Weapon> WeaponsMaster; //}>- These collections contain every Item, Weapon, and Monster
         public List<Monster> MonstersMaster;//}   used in this game.
-        public Dungeon dungeon;
+
+        private Room CurrentRoom = new Room();
 
         private bool showingHelp = false;
         private readonly string helpText = "";
@@ -32,8 +32,6 @@ namespace TRPG
             player = new Player();
             gui = new GUI(100, 30, true);//Configure the size of the GUI, and enable/disable dynamic size
             messages = new List<Message>();
-            parser = new Parser();
-            dungeon = new Dungeon();
 
             LoadItems();
 
@@ -41,7 +39,6 @@ namespace TRPG
 
             Random RNG = new Random();
             player.Buffs.Scramble(RNG.Next(), 5);
-            dungeon.GenerateRandom(RNG.Next(), ItemsMaster, WeaponsMaster, MonstersMaster);
 
             //Define the help text that shows when the player says "help".
             helpText = "COMMON COMMANDS\n";
@@ -61,7 +58,11 @@ namespace TRPG
             //helpText += "\"\"         - \n";
             helpText += "\"help\"            - shows and hides this help.\n";
 
-            gui.MainText = dungeon.CurrentRoom.Description;
+            CurrentRoom.GenerateRandom(RNG.Next(), ItemsMaster, WeaponsMaster, MonstersMaster);
+            CommandSystem.Clear();
+            CommandSystem.Add(CurrentRoom);
+            CommandSystem.Build();
+            gui.MainText = CurrentRoom.Description;
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace TRPG
         /// </summary>
         public void Step()
         {
-            foreach (Item monster in dungeon.CurrentRoom.Contents)
+            foreach (Item monster in CurrentRoom.Contents)
             {
                 if (monster is Monster monster2)
                 {
@@ -97,213 +98,6 @@ namespace TRPG
         {
             if (_input != "")
             {
-                messages.Add(new Message("Input: " + _input));
-                messages[^1].Foreground = ConsoleColor.Cyan;
-                Command newCommand = parser.Parse(_input);
-                if (resetScroll)
-                { gui.MainScroll = 0; }
-                else
-                { resetScroll = true; }
-
-                //Catch special commands outside of actual parsing
-                //These commands do not advance the game
-                if (string.Equals(newCommand.Text, "expand inventory", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (gui.InventorySize < 10) { gui.InventorySize++; }
-                }
-                else if (string.Equals(newCommand.Text, "shrink inventory", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (gui.InventorySize > 1) { gui.InventorySize--; }
-                }
-                else if (string.Equals(newCommand.Text, "open inventory", StringComparison.OrdinalIgnoreCase))
-                {
-                    gui.InventorySize = 6;
-                }
-                else if (string.Equals(newCommand.Text, "close inventory", StringComparison.OrdinalIgnoreCase))
-                {
-                    gui.InventorySize = 1;
-                }
-                else if (string.Equals(newCommand.Text, "scroll down", StringComparison.OrdinalIgnoreCase) || string.Equals(newCommand.Text, "sd", StringComparison.OrdinalIgnoreCase))
-                {
-                    //int maxScroll = 100;
-                    //if (gui.MainScroll < maxScroll) { gui.MainScroll += Math.Min(maxScroll - gui.MainScroll, 4); }
-                    gui.MainScroll += gui.Height / 2;
-                    resetScroll = false;
-                }
-                else if (string.Equals(newCommand.Text, "scroll up", StringComparison.OrdinalIgnoreCase) || string.Equals(newCommand.Text, "su", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (gui.MainScroll > 0) { gui.MainScroll -= Math.Min(gui.MainScroll, Math.Max(1, (gui.Height / 2) - 5)); }
-                    resetScroll = false;
-                }
-                else if (string.Equals(newCommand.Text, "help", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (!showingHelp)
-                    {
-                        showingHelp = true;
-                        underHelpText = gui.MainText;
-                        gui.MainText = helpText;
-                    }
-                    else
-                    {
-                        showingHelp = false;
-                        gui.MainText = underHelpText;
-                    }
-                }
-                else if (string.Equals(newCommand.Text, "examine room", StringComparison.OrdinalIgnoreCase) || string.Equals(newCommand.Text, "er", StringComparison.OrdinalIgnoreCase))
-                {
-                    gui.MainText = dungeon.CurrentRoom.ExtraDescript;
-                    gui.MainText += "\n\n";
-                    gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
-                    gui.MainText += "\n\n";
-                    gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
-                }
-                else if (string.Equals(newCommand.Text, "examine all", StringComparison.OrdinalIgnoreCase))
-                {
-                    gui.MainText = dungeon.CurrentRoom.ExtraDescript;
-                    gui.MainText += "\n\n";
-                    gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
-                    gui.MainText += "\n\n";
-                    gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
-                    gui.MainText += "\n\n";
-                    gui.MainText += player.ToString();
-                }
-                else if (string.Equals(newCommand.Text, "examine self", StringComparison.OrdinalIgnoreCase))
-                {
-                    gui.MainText = player.ToString();
-                }
-                else if (string.Equals(newCommand.Text, "go north", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (dungeon.GoNorth() > 0)
-                    {
-                        gui.MainText = dungeon.CurrentRoom.Description;
-                    }
-                    else if (dungeon.GoNorth() == -2)
-                    {
-                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                    else
-                    {
-                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                }
-                else if (string.Equals(newCommand.Text, "go south", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (dungeon.GoSouth() > 0)
-                    {
-                        gui.MainText = dungeon.CurrentRoom.Description;
-                    }
-                    else if (dungeon.GoSouth() == -2)
-                    {
-                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                    else
-                    {
-                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                }
-                else if (string.Equals(newCommand.Text, "go east", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (dungeon.GoEast() > 0)
-                    {
-                        gui.MainText = dungeon.CurrentRoom.Description;
-                    }
-                    else if (dungeon.GoEast() == -2)
-                    {
-                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                    else
-                    {
-                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                }
-                else if (string.Equals(newCommand.Text, "go west", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (dungeon.GoWest() > 0)
-                    {
-                        gui.MainText = dungeon.CurrentRoom.Description;
-                    }
-                    else if (dungeon.GoWest() == -2)
-                    {
-                        gui.MainText = "The monsters block your exit.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                    else
-                    {
-                        gui.MainText = "You cannot go that way.\n" + dungeon.CurrentRoom.ExtraDescript;
-                    }
-                }
-                else
-                {
-                    if (newCommand.Pattern != "")
-                    {
-                        bool turnConsumed = false;
-                        messages.Add(new Message("Pattern: " + newCommand.Pattern));//For debugging. Remove later!
-                        messages[^1].Foreground = ConsoleColor.DarkGray;
-
-                        if (newCommand.Tokens[0].Value == 1)//If the command starts with a verb
-                        {
-                            if (newCommand.Tokens[0].Text == "take")
-                            {
-                                gui.MainText = dungeon.CurrentRoom.Contents.Take(newCommand.Tokens, player.Contents);
-                                turnConsumed = true;
-                            }
-
-                            if (newCommand.Tokens[0].Text == "drop")
-                            {
-                                gui.MainText = dungeon.CurrentRoom.Contents.Drop(newCommand.Tokens, player.Contents);
-                                turnConsumed = true;
-                            }
-
-                            if (newCommand.Tokens[0].Text == "examine")
-                            {
-                                if (player.Contents.Find(newCommand.Tokens) != null)
-                                {
-                                    gui.MainText = player.Contents.Find(newCommand.Tokens).ToString();
-                                }
-                                else if (dungeon.CurrentRoom.Contents.Find(newCommand.Tokens) != null)
-                                {
-                                    gui.MainText = dungeon.CurrentRoom.Contents.Find(newCommand.Tokens).ToString();
-                                }
-                                else
-                                {
-                                    gui.MainText = "There is nothing like that to examine here.";
-                                }
-                            }
-
-                            if (newCommand.Tokens.Count >= 3 && newCommand.Tokens[0].Text == "attack" && newCommand.Tokens[2].Text == "with")
-                            {
-                                if (dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text) != null &&
-                                    player.Contents.Find(newCommand.Tokens[3].Text) != null)
-                                {
-                                    try
-                                    {
-                                        gui.MainText = GameRules.PlayerAttacksMonster(this, (Weapon)player.Contents.Find(newCommand.Tokens[3].Text), player.Buffs + player.Contents, (Monster)dungeon.CurrentRoom.Contents.Find(newCommand.Tokens[1].Text), (int)DateTime.Now.Ticks & 0x0000FFFF);
-                                        turnConsumed = true;
-                                    }
-                                    catch
-                                    {
-                                        gui.MainText = "You cannot do that.";
-                                    }
-                                }
-                            }
-                        }
-
-                        if (turnConsumed)
-                        {
-                            Step(); //The player has issued an action. Advance the game one step.
-                        }
-
-                        gui.MainText += "\n--------------------------------\n";
-                        gui.MainText += dungeon.CurrentRoom.ExtraDescript;
-                        gui.MainText += "\n\n";
-                        gui.MainText += dungeon.CurrentRoom.GetContentsDescription();
-                        gui.MainText += "\n\n";
-                        gui.MainText += dungeon.CurrentRoom.GetDoorsDescription();
-                    }
-                    else
-                    {
-                        messages.Add(new Message("I did not understand any of that."));
-                    }
-                }
             }
 
             gui.Render(this);
@@ -321,13 +115,14 @@ namespace TRPG
 
             List<Adjective> Adjectives = new List<Adjective>
             {
-                new Adjective("large", 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.5f, 1.75f, 1.5f, 1.0f, 1.1f, 0.9f, 1.0f, 1.0f, 1.0f),
-                new Adjective("small", 1.0f, 1.5f, 1.0f, 1.0f, 1.0f, 0.75f, 0.75f, 0.75f, 1.0f, 0.9f, 1.25f, 1.0f, 1.0f, 1.0f),
-                new Adjective("sharp", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.0f, 1.75f, 2.0f, 1.0f, 1.5f, 1.0f, 1.0f, 1.0f),
-                new Adjective("dull", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 0.75f, 1.0f, 0.9f, 1.0f, 1.0f, 1.0f),
-                new Adjective("polished", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 1.1f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
-                new Adjective("dirty", 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f)
+                new Adjective(){ Text="large", Weight=1.5, Value=1.5, Damage=1.5, Defense=1.5, Health=1.5 },
+                new Adjective(){ Text="small", Weight=0.75, Value=0.75, Damage=0.75, Defense=0.75, Health=0.75 },
+                new Adjective(){ Text="sharp", Value=2.0, Damage=2.0, Intelligence=2.0, Accuracy=1.5 },
+                new Adjective(){ Text="dull", Value=0.5, Damage=0.5, Defense=1.5, Intelligence=0.5},
+                new Adjective(){ Text="polished", Value=2.0, Dexterity=2.0, Wisdom=2.0 },
+                new Adjective(){ Text="dirty", Value=0.5 },
             };
+
             Random RNG = new Random();
 
             Monster tempMonster = new Monster("Grue", "M_00", 10, 75);
@@ -377,15 +172,6 @@ namespace TRPG
             ItemsMaster.Add(tempItem);
             tempItem = new Item("Gem", "I_07", 100, 1);
             ItemsMaster.Add(tempItem);
-
-            DataPack datapack = new DataPack(Directory.GetCurrentDirectory())
-            {
-                AdjectivesMaster = Adjectives,
-                ItemsMaster = ItemsMaster,
-                MonstersMaster = MonstersMaster,
-                WeaponsMaster = WeaponsMaster
-            };
-            datapack.Save();
         }
     }
 }
